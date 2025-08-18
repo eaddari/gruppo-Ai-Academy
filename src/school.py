@@ -2,7 +2,9 @@ class School:
     """
     A class to represent a school with multiple classrooms.
     """
+
     classrooms: dict[str, list[dict[str, str]]]
+
     def __init__(self):
         self.classrooms = {}
 
@@ -18,7 +20,6 @@ class School:
             A dictionary containing the student's information (name and surname).
         """
 
-
         if classroom_name not in self.classrooms:
             self.classrooms[classroom_name] = []
         self.classrooms[classroom_name].append(student)
@@ -28,7 +29,9 @@ class School:
         List all students in each classroom.
         """
         for classroom, students in self.classrooms.items():
-            print(f"Classroom: {classroom}, Students: {sorted([f"{student['name']} {student['surname']}" for student in students])}")
+            print(
+                f"Classroom: {classroom}, Students: {sorted([f'{student["name"]} {student["surname"]}' for student in students])}"
+            )
 
     def find_student(self, student_name: str) -> None:
         """
@@ -43,9 +46,11 @@ class School:
         search = student_name.strip().lower()
         for classroom, students in self.classrooms.items():
             for student in students:
-                full_name = (student['name'] + ' ' + student['surname']).strip().lower()
+                full_name = (student["name"] + " " + student["surname"]).strip().lower()
                 if search in full_name or full_name in search:
-                    print(f"Found: {student['name']} {student['surname']} in {classroom}")
+                    print(
+                        f"Found: {student['name']} {student['surname']} in {classroom}"
+                    )
                     found = True
         if not found:
             print("Student not found.")
