@@ -22,11 +22,7 @@ def test_list_students_prints_sorted_names(capsys):
 
     captured = capsys.readouterr()
 
-    assert "Classroom: 1A" in captured.out
-    assert "Alice Smith" in captured.out
-    assert "Bob Brown" in captured.out
-
-    assert captured.out.index("Alice Smith") < captured.out.index("Bob Brown")
+    assert "Classroom: 1A, Students: ['Alice Smith', 'Bob Brown']" in captured.out
 
 
 def test_find_student_found(capsys):
@@ -37,7 +33,7 @@ def test_find_student_found(capsys):
 
     captured = capsys.readouterr()
 
-    assert "Found in 2B" in captured.out
+    assert "Found: Charlie Doe in 2B" in captured.out
 
 
 def test_find_student_not_found(capsys):
