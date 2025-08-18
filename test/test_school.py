@@ -1,4 +1,3 @@
-import pytest
 from src.school import School
 
 
