@@ -1,4 +1,4 @@
-from src.student_manager import School
+from src.school import School
 
 def main():
 
