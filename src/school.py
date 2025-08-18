@@ -39,9 +39,13 @@ class School:
         student_name : str
             The APPROXIMATE name of the student to find.
         """
+        found = False
+        search = student_name.strip().lower()
         for classroom, students in self.classrooms.items():
-            if any(student['name'].lower() in student_name.lower() for student in students):
-                print(f"Found in {classroom}")
-                break
-        else:
+            for student in students:
+                full_name = (student['name'] + ' ' + student['surname']).strip().lower()
+                if search in full_name or full_name in search:
+                    print(f"Found: {student['name']} {student['surname']} in {classroom}")
+                    found = True
+        if not found:
             print("Student not found.")
