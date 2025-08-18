@@ -13,19 +13,23 @@ def main():
                 student = {}
                 student['name'] = input("Enter student's name: ")
                 student['surname'] = input("Enter student's surname: ")
-            except ValueError:
-                print("Invalid input. Please enter valid strings.")
-                continue
-            
-            school.add_student(classroom_name, student)
-            print("Student added.")
+                school.add_student(classroom_name, student)
+                print("Student added.")
+            except Exception as e:
+                print(f"Error adding student: {e}")
 
         elif main_menu == '2':
-            school.list_students()
+            try:
+                school.list_students()
+            except Exception as e:
+                print(f"Error listing students: {e}")
 
         elif main_menu == '3':
-            student_name = input("Enter student's name to search: ")
-            school.find_student(student_name)
+            try:
+                student_name = input("Enter student's name to search: ")
+                school.find_student(student_name)
+            except Exception as e:
+                print(f"Error finding student: {e}")
 
         elif main_menu == 'exit':
             print("Exiting the program.")
