@@ -55,26 +55,32 @@ def plot_clusters(X, kmeans):
     Plot the clusters formed by KMeans.
     """
     plt.figure()
+
     plt.scatter(X[:, 0], X[:, 1], c=kmeans.labels_, cmap="viridis", marker="o")
+
     centers = kmeans.cluster_centers_
     plt.scatter(centers[:, 0], centers[:, 1], c="red", marker="x", s=200)
-    plt.xlabel("CustomerID")
-    plt.ylabel("CLV")
+
+    plt.xlabel("CLV")
+    plt.ylabel("Average Spent")
+    plt.legend()
+
     plt.title("KMeans Clustering")
     plt.show()
 
 
 def main():
     df = pd.read_csv(DATASET_PATH)
+    df = df.dropna()
 
-    X = df[["CustomerID", "purchase_frequency"]].values
+    X = df[["CLV", "avg_spent"]].values
 
-    sse = find_best_k(X)
-    plot_elbow(sse)
+    # sse = find_best_k(X)
+    # plot_elbow(sse)
 
-    # trained_kmeans = train_kmeans(X, 3)
+    trained_kmeans = train_kmeans(X, 5)
 
-    # plot_clusters(X, trained_kmeans)
+    plot_clusters(X, trained_kmeans)
 
 
 if __name__ == "__main__":
