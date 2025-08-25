@@ -23,7 +23,7 @@ if "ciatgpt" not in st.session_state:
     st.session_state.ciatgpt = Ciatgpt(api_key=st.session_state.api_key, conn_str=st.session_state.conn_str)
 if "conversation_history" not in st.session_state:
     st.session_state.conversation_history = []
-
+  
 user_input = st.text_input("Sono il magico chatgpt fammi una domanda:")
 
 if user_input:
