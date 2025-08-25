@@ -1,3 +1,4 @@
+import httpx
 import streamlit as st
 import os
 import re
@@ -38,6 +39,9 @@ class Settings:
     mmr_lambda: float = 0.3  # 0 = diversificazione massima, 1 = pertinenza massima
 
 
+httpx_client = httpx.Client(http2=True, verify=False)
+
+
 def setup_azure_openai():
     """
     Configura Azure OpenAI con le variabili d'ambiente.
@@ -59,12 +63,14 @@ def setup_azure_openai():
         st.stop()
 
     llm = AzureChatOpenAI(
+        http_client=httpx_client,
         azure_endpoint=endpoint,
         azure_deployment=deployment_chat,
         api_version=api_version,
     )
 
     embeddings = AzureOpenAIEmbeddings(
+        http_client=httpx_client,
         azure_endpoint=endpoint,
         azure_deployment=deployment_embedding,
         api_version=api_version,
