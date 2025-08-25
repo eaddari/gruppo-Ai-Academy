@@ -33,7 +33,7 @@ if "evaluation_results" not in st.session_state:
 def build_ragas_dataset(questions, retriever, chain, ground_truth=None):
     dataset = []
     for question in questions:
-        retrieved_docs = retriever.get_relevant_documents(question)
+        retrieved_docs = retriever.invoke(question)
         contexts = [doc.page_content for doc in retrieved_docs]
         answer = chain.invoke(question)
 
