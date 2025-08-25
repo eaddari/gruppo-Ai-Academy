@@ -101,6 +101,9 @@ def load_uploaded_file(uploaded_file) -> list[Document]:
         if uploaded_file.name.lower().endswith(".pdf"):
             loader = PyPDFLoader(tmp_path)
             documents = loader.load()
+            # Sovrascrive il metadata source con il nome originale del file
+            for doc in documents:
+                doc.metadata["source"] = uploaded_file.name
         elif uploaded_file.name.lower().endswith((".txt", ".md")):
             # Leggi il contenuto come testo
             content = uploaded_file.getvalue().decode("utf-8")
@@ -205,6 +208,8 @@ def format_docs_for_prompt(docs: list[Document]) -> str:
     lines = []
     for i, d in enumerate(docs, start=1):
         src = d.metadata.get("source", f"doc{i}")
+        # Estrai solo il nome del file dal percorso completo
+        src = os.path.basename(src) if src else f"doc{i}"
         section = d.metadata.get("section_number", "")
         section_info = f" (sezione {section})" if section else ""
         lines.append(f"[source:{src}{section_info}] {d.page_content}")
