@@ -1,0 +1,72 @@
+content_processing_task:
+  description: >
+    Process web search results from SerperDevTool output. Extract and clean the web content,
+    removing HTML artifacts, advertisements, navigation elements, and other noise.
+    Structure the content in a clear, coherent format that preserves the essential information
+    while making it suitable for knowledge base indexing.
+    
+    Input: {web_search_results}
+    Topic: {topic}
+    
+    Focus on:
+    - Extracting main textual content
+    - Preserving important links and references
+    - Identifying key sections and headings
+    - Removing navigation, ads, and boilerplate content
+    - Maintaining source attribution
+  expected_output: >
+    Clean, structured content in markdown format with:
+    - Clear headings and sections
+    - Preserved essential links and references
+    - Source URL information
+    - Removed HTML artifacts and noise
+    - Content organized for optimal chunking
+  agent: content_processor
+
+indexing_task:
+  description: >
+    Take the processed web content and index it into the existing FAISS vector store.
+    Use the WebContentSaver tool to:
+    - Chunk the content into optimal sizes for retrieval
+    - Generate embeddings using Azure OpenAI
+    - Check for duplicate content to avoid redundancy
+    - Add content to the existing FAISS index
+    - Maintain proper metadata for source tracking
+    
+    Content to index: {processed_content}
+    Source URL: {source_url}
+    Topic: {topic}
+    
+    Ensure proper error handling and provide detailed feedback on the indexing process.
+  expected_output: >
+    Successful indexing confirmation with details including:
+    - Number of chunks created
+    - Content hash for deduplication
+    - Indexing status and any warnings
+    - Metadata preserved for future citations
+    - Integration status with existing FAISS index
+  agent: knowledge_indexer
+
+validation_task:
+  description: >
+    Validate the quality and success of the content indexing process.
+    Review the indexing results and generate a comprehensive report covering:
+    - Indexing success/failure status
+    - Content quality assessment
+    - Chunk distribution and coverage
+    - Potential duplicate detection results
+    - Integration quality with existing knowledge base
+    - Recommendations for future improvements
+    
+    Indexing results: {indexing_results}
+    Original content source: {source_url}
+    Topic: {topic}
+  expected_output: >
+    A detailed validation report including:
+    - Overall indexing success rate
+    - Quality metrics and assessment
+    - Any issues encountered and resolutions
+    - Content coverage analysis
+    - Recommendations for optimization
+    - Summary statistics of the updated knowledge base
+  agent: quality_validator

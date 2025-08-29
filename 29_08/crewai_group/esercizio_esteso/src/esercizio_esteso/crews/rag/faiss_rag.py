@@ -215,6 +215,90 @@ def rag_answer(question: str, chain) -> str:
     return chain.invoke(question)
 
 
+def add_web_content_to_vectorstore(web_content: str, source_url: str, topic: str = "web_search") -> str:
+    """
+    Aggiunge contenuto web al vectorstore FAISS esistente.
+    
+    Args:
+        web_content: Il contenuto della pagina web da aggiungere
+        source_url: L'URL della fonte per i metadati
+        topic: Il topic/categoria per l'organizzazione
+        
+    Returns:
+        str: Messaggio di stato dell'operazione
+    """
+    try:
+        import hashlib
+        from datetime import datetime
+        
+        # Validazione input
+        if not web_content or not web_content.strip():
+            return "Error: No content provided to save."
+        
+        if len(web_content.strip()) < 50:
+            return "Warning: Content too short to be meaningful. Skipping."
+        
+        # Crea hash del contenuto per evitare duplicati
+        content_hash = hashlib.md5(web_content.encode('utf-8')).hexdigest()[:12]
+        
+        # Inizializza componenti
+        settings = SETTINGS
+        embeddings = get_embeddings(settings)
+        
+        # Carica vectorstore esistente
+        empty_docs = []  # Non abbiamo bisogno di documenti per caricare l'indice esistente
+        vector_store = load_or_build_vectorstore(settings, embeddings, empty_docs)
+        
+        # Verifica duplicati (ricerca semplice per contenuto simile)
+        try:
+            existing_docs = vector_store.similarity_search(web_content[:100], k=3)
+            for doc in existing_docs:
+                if doc.metadata.get("content_hash") == content_hash:
+                    return f"Content from {source_url} already exists in the knowledge base. Skipping duplicate."
+        except:
+            pass  # Continua se la ricerca fallisce
+        
+        # Prepara metadati
+        metadata = {
+            "source": source_url,
+            "source_type": "web_search", 
+            "topic": topic,
+            "content_hash": content_hash,
+            "added_date": datetime.now().isoformat(),
+            "content_length": len(web_content)
+        }
+        
+        # Crea documento
+        web_document = Document(page_content=web_content, metadata=metadata)
+        
+        # Chunka il contenuto usando la funzione esistente
+        chunks = split_documents([web_document], settings)
+        
+        if not chunks:
+            return "Error: No chunks created from the content."
+        
+        # Aggiungi metadati specifici per chunk
+        for i, chunk in enumerate(chunks):
+            chunk.metadata.update({
+                "chunk_id": f"{content_hash}_{i}",
+                "chunk_index": i,
+                "total_chunks": len(chunks)
+            })
+        
+        # Aggiungi i documenti al vectorstore esistente
+        vector_store.add_documents(chunks)
+        
+        # Salva il vectorstore aggiornato
+        vector_store.save_local(settings.persist_dir)
+        
+        return (f"Successfully processed and saved web content from {source_url}. "
+                f"Created {len(chunks)} chunks and added them to the FAISS knowledge base. "
+                f"Content is now available for RAG queries on topic: {topic}")
+        
+    except Exception as e:
+        return f"Error processing web content: {str(e)}"
+
+
 
 def main():
     settings = SETTINGS

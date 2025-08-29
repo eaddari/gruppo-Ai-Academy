@@ -6,7 +6,7 @@ import os
 
 from datetime import datetime
 
-from flow_copy import GenericFlow, kickoff as flow_kickoff, plot as flow_plot
+from esercizio_esteso.src.esercizio_esteso.flow import GenericFlow, kickoff as flow_kickoff, plot as flow_plot
 
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 
