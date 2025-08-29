@@ -1,16 +1,28 @@
 #!/usr/bin/env python
+import json
 import os
-from typing import List
+from typing import List, Literal
 from pydantic import BaseModel, Field
-from crewai.flow.flow import Flow, listen, start, router, or_
+from crewai import LLM
+from crewai.flow import Flow, listen, start, router, or_
 from openai import AzureOpenAI
 from crews.webrag.crew import Webrag
 from crews.mathcrew.crew import Math
 from crews.summary.crew import ExplanationCrew
 
+
+class RouterOutput(BaseModel):
+    """Output model for the router decision"""
+
+    route: Literal["reseacrh", "summarization", "math", "image_generation"] = Field(
+        description="Decided method for router"
+    )
+
+
 # Define our models for structured data
 class ResearchPlan(BaseModel):
     """Structured plan for research workflow"""
+
     topic: str = Field(description="Main user input")
     rag_focus: str = Field(description="Specific focus for RAG research")
     web_focus: str = Field(description="Specific focus for web research")
@@ -18,17 +30,21 @@ class ResearchPlan(BaseModel):
     research_questions: List[str] = Field(description="Key questions to answer")
     target_audience: str = Field(description="Target audience for the report")
 
+
 class ResearchResults(BaseModel):
     """Results from research phase"""
+
     rag_findings: str = ""
     web_findings: str = ""
     math_findings: str = ""
     combined_insights: str = ""
     research_method: str = ""
 
+
 # Define our flow state
 class GenericFlowState(BaseModel):
     """State management for the Generic flow"""
+
     topic: str = ""
     current_year: str = ""
     research_plan: ResearchPlan = None
@@ -39,25 +55,53 @@ class GenericFlowState(BaseModel):
     final_report_structure: str = ""
     final_report_infos: str = ""
 
-class GenericFlow(Flow[GenericFlowState]):
 
+class GenericFlow(Flow[GenericFlowState]):
     @start()
     def collect_user_input(self):
         """
         Entry point: Collect user input about research topic
         """
         print("\n=== WebRAG Research Flow ===\n")
-        
+
         # Get user input
         self.state.topic = input("What topic would you like to research? ")
-        
+
         from datetime import datetime
+
         self.state.current_year = str(datetime.now().year)
-        
+
         print(f"\nStarting research on: {self.state.topic}")
         print(f"Current year: {self.state.current_year}\n")
-        
-        return "user_input_collected"
+
+        # user_input = input("Chat with LLM: ").strip()
+        # print(f"User input: {user_input}")
+
+        llm = LLM(
+            model="azure/gpt-4.1-nano",
+            temperature=0,
+            response_format=RouterOutput,
+        )
+
+        messages = [
+            {
+                "role": "system",
+                "content": "You are an orchestrator. Decide the best research method based on user input. Respond with JSON only, using the 'method' field with one of these values: 'research' for RAG/web research, 'math' for mathematical problems, or 'summarization' for summarization tasks.",
+            },
+            {
+                "role": "user",
+                "content": f"Decide the best research method for this input: {self.state.topic}",
+            },
+        ]
+
+        result = llm.call(messages)
+
+        json_result = json.loads(result)
+        router_output = RouterOutput(**json_result)
+
+        print(router_output.route)
+
+        return router_output.route
 
     @listen(collect_user_input)
     def create_research_plan(self):
@@ -67,7 +111,7 @@ class GenericFlow(Flow[GenericFlowState]):
             web_focus=f"Web research about {self.state.topic}",
             math_focus=f"Math research about {self.state.topic}",
             research_questions=[f"What is {self.state.topic}?"],
-            target_audience="General audience"
+            target_audience="General audience",
         )
         print("Research plan created")
         return "research_plan_created"
@@ -83,12 +127,14 @@ class GenericFlow(Flow[GenericFlowState]):
         chat = llm.chat.completions.create(
             model=os.getenv("MODEL", "gpt-4"),
             messages=[
-                {"role": "system", "content": "You are a classifier. Answer with ONLY one word. 'math' if the input is a mathematical equation or calculation. if not a mathematical equation or calculation, respond with 'not_math'."},
-                {"role": "user", "content": f"Classify this input: {self.state.topic}"}
-        ],
+                {
+                    "role": "system",
+                    "content": "You are a classifier. Answer with ONLY one word. 'math' if the input is a mathematical equation or calculation. if not a mathematical equation or calculation, respond with 'not_math'.",
+                },
+                {"role": "user", "content": f"Classify this input: {self.state.topic}"},
+            ],
             max_tokens=10,
-            temperature=0.0
-
+            temperature=0.0,
         )
         answer = chat.choices[0].message.content.strip().lower()
         print(answer)
@@ -96,23 +142,27 @@ class GenericFlow(Flow[GenericFlowState]):
             self.state.orchestrator_decision = "math"
             return "orchestration_complete"
         elif answer == "not_math":
-            
             llm = AzureOpenAI(
-            azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
-            api_key=os.getenv("AZURE_OPENAI_API_KEY"),
-            api_version=os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-01"),
-            azure_deployment=os.getenv("MODEL", "gpt-4"),
+                azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
+                api_key=os.getenv("AZURE_OPENAI_API_KEY"),
+                api_version=os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-01"),
+                azure_deployment=os.getenv("MODEL", "gpt-4"),
             )
             chat = llm.chat.completions.create(
                 model=os.getenv("MODEL", "gpt-4"),
                 messages=[
-                    {"role": "system", "content": "You are a classifier. Answer with ONLY one word. 'rag' if the input is about minecraft dirt blocks. 'web' if it's anything else."},
-                    {"role": "user", "content": f"Classify this input: {self.state.topic}"}
-            ],
+                    {
+                        "role": "system",
+                        "content": "You are a classifier. Answer with ONLY one word. 'rag' if the input is about minecraft dirt blocks. 'web' if it's anything else.",
+                    },
+                    {
+                        "role": "user",
+                        "content": f"Classify this input: {self.state.topic}",
+                    },
+                ],
                 max_tokens=10,
-                temperature=0.0
-
-                )   
+                temperature=0.0,
+            )
             answer = chat.choices[0].message.content.strip().lower()
             if "rag" in answer:
                 self.state.orchestrator_decision = "rag"
@@ -137,18 +187,23 @@ class GenericFlow(Flow[GenericFlowState]):
         Execute RAG research using the local document crew
         """
         print("🔍 Executing RAG research...")
-        
+
         try:
             webrag_crew = Webrag()
             rag_result = webrag_crew.rag_researcher().execute_task(
                 webrag_crew.rag_research_task(),
-                context={"topic": self.state.topic, "current_year": self.state.current_year}
+                context={
+                    "topic": self.state.topic,
+                    "current_year": self.state.current_year,
+                },
             )
             self.state.research_results.rag_findings = str(rag_result)
         except Exception as e:
             print(f"RAG research error: {e}")
-            self.state.research_results.rag_findings = f"RAG research completed for: {self.state.topic}"
-        
+            self.state.research_results.rag_findings = (
+                f"RAG research completed for: {self.state.topic}"
+            )
+
         self.state.research_results.research_method = "RAG"
         print("✅ RAG research completed")
         return "rag_completed"
@@ -163,13 +218,18 @@ class GenericFlow(Flow[GenericFlowState]):
             webrag_crew = Webrag()
             web_result = webrag_crew.web_researcher().execute_task(
                 webrag_crew.web_research_task(),
-                context={"topic": self.state.topic, "current_year": self.state.current_year}
+                context={
+                    "topic": self.state.topic,
+                    "current_year": self.state.current_year,
+                },
             )
             self.state.research_results.web_findings = str(web_result)
         except Exception as e:
             print(f"Web research error: {e}")
-            self.state.research_results.web_findings = f"Web research completed for: {self.state.topic}"
-        
+            self.state.research_results.web_findings = (
+                f"Web research completed for: {self.state.topic}"
+            )
+
         self.state.research_results.research_method = "Web"
         print("✅ Web research completed")
         return "web_completed"
@@ -183,13 +243,15 @@ class GenericFlow(Flow[GenericFlowState]):
             math_crew = Math()
             math_result = math_crew.math_tool_agent().execute_task(
                 math_crew.math_task(),
-                context={"problem": self.state.topic, "topic": self.state.topic}
+                context={"problem": self.state.topic, "topic": self.state.topic},
             )
             self.state.research_results.math_findings = str(math_result)
         except Exception as e:
             print(f"Math problem error: {e}")
-            self.state.research_results.math_findings = f"Math problem completed for: {self.state.topic}"
-        
+            self.state.research_results.math_findings = (
+                f"Math problem completed for: {self.state.topic}"
+            )
+
         self.state.research_results.research_method = "Math"
         return "math_completed"
 
@@ -199,7 +261,7 @@ class GenericFlow(Flow[GenericFlowState]):
         Synthesize research findings and create final report
         """
         print("📝 Synthesizing findings and creating report...")
-        
+
         # Determine which research was actually executed
         if self.state.research_results.rag_findings:
             research_content = self.state.research_results.rag_findings
@@ -213,16 +275,25 @@ class GenericFlow(Flow[GenericFlowState]):
 
         explanation_crew = ExplanationCrew()
 
-        self.state.final_report_structure = explanation_crew.agent_manager().execute_task(
-            explanation_crew.agent_manager_task(),
-            context={"topic": self.state.topic, "research_content": research_content}
+        self.state.final_report_structure = (
+            explanation_crew.agent_manager().execute_task(
+                explanation_crew.agent_manager_task(),
+                context={
+                    "topic": self.state.topic,
+                    "research_content": research_content,
+                },
+            )
         )
-        
+
         self.state.final_report_infos = explanation_crew.web_researcher().execute_task(
             explanation_crew.web_researcher_task(),
-            context={"topic": self.state.topic, "research_content": research_content, "current_year": self.state.current_year}
+            context={
+                "topic": self.state.topic,
+                "research_content": research_content,
+                "current_year": self.state.current_year,
+            },
         )
-        
+
         self.state.final_report = explanation_crew.expert_writer().execute_task(
             explanation_crew.expert_writer_task(),
             context={
@@ -230,39 +301,42 @@ class GenericFlow(Flow[GenericFlowState]):
                 "structure": str(self.state.final_report_structure),
                 "research_info": str(self.state.final_report_infos),
                 "original_research": research_content,
-                "method": research_method
-            }
+                "method": research_method,
+            },
         )
         # Save the report
         os.makedirs("output", exist_ok=True)
         with open("output/research_report.md", "w", encoding="utf-8") as f:
             f.write(str(self.state.final_report))
-        
+
         print(f"✅ Research flow completed using {research_method}!")
         print("📄 Final report saved to: output/research_report.md")
-        
+
         return "flow_completed"
+
 
 def kickoff():
     """Run the Generic research flow"""
     flow = GenericFlow()
     result = flow.kickoff()
-    
-    print("\n" + "="*50)
+
+    print("\n" + "=" * 50)
     print("🎉 Generic Flow Complete!")
-    print("="*50)
+    print("=" * 50)
     print("Your research results are available in the output directory:")
     print("• research_plan.json - Initial research strategy")
-    print("• research_report.md - Final comprehensive report") 
+    print("• research_report.md - Final comprehensive report")
     print("• research_summary.json - Complete research summary")
-    
+
     return result
+
 
 def plot():
     """Generate a visualization of the flow"""
     flow = GenericFlow()
     flow.plot("generic_flow")
     print("Flow visualization saved to generic_flow.html")
+
 
 if __name__ == "__main__":
     kickoff()
