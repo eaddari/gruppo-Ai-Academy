@@ -1,22 +1,13 @@
-agent_manager_task:
+input_task:
   description: >
-    Oversee the entire explanation process for {topic}
+    Add context to the user's input by providing relevant background information and details.
   expected_output: >
-    A detailed plan outlining the structure to explain {topic} and how to explain it
-  agent: agent_manager
-
-web_research_task:
-  description: >
-    Conduct a thorough web research about {topic}
-    Make sure you find any interesting and relevant information given
-    the current year is {current_year}.
-  expected_output: >
-    A list with 10 bullet points of the most relevant information about {topic}
+    A comprehensive context that enhances the user's input and provides clarity and more information.
   agent: web_researcher
 
-expert_writer_task:
+dalle_task:
   description: >
-    Write a comprehensive guide about {topic} with the information provided through context.
+    Generate an image based on the description provided in the context.
   expected_output: >
-    A well-structured guide that covers all aspects of {topic}
-  agent: expert_writer
+    A high-quality image that accurately represents the input description.
+  agent: dalle_agent
