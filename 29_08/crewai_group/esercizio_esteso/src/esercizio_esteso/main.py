@@ -1,53 +1,56 @@
 #!/usr/bin/env python
-from random import randint
+import sys
+import warnings
+import ssl
+import os
 
-from pydantic import BaseModel
+from datetime import datetime
 
-from crewai.flow import Flow, listen, start
+from flow_copy import GenericFlow, kickoff as flow_kickoff, plot as flow_plot
 
-from esercizio_esteso.crews.poem_crew.poem_crew import PoemCrew
+warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 
+# This main file is intended to be a way for you to run your
+# crew locally, so refrain from adding unnecessary logic into this file.
+# Replace with inputs you want to test with, it will automatically
+# interpolate any tasks and agents information
 
-class PoemState(BaseModel):
-    sentence_count: int = 1
-    poem: str = ""
+def run():
+    """
+    Run the crew directly.
+    """
+    inputs = {
+        'topic': input('Enter topic: '),
+        'current_year': str(datetime.now().year)
+    }
+    
+    try:
+        result = GenericFlow().crew().kickoff(inputs=inputs)
+        print("✅ Crew execution completed!")
+        return result
+    except Exception as e:
+        raise Exception(f"An error occurred while running the crew: {e}")
 
+def run_flow():
+    """
+    Run the WebRAG flow (recommended).
+    """
+    try:
+        result = flow_kickoff()
+        return result
+    except Exception as e:
+        raise Exception(f"An error occurred while running the flow: {e}")
 
-class PoemFlow(Flow[PoemState]):
-
-    @start()
-    def generate_sentence_count(self):
-        print("Generating sentence count")
-        self.state.sentence_count = randint(1, 5)
-
-    @listen(generate_sentence_count)
-    def generate_poem(self):
-        print("Generating poem")
-        result = (
-            PoemCrew()
-            .crew()
-            .kickoff(inputs={"sentence_count": self.state.sentence_count})
-        )
-
-        print("Poem generated", result.raw)
-        self.state.poem = result.raw
-
-    @listen(generate_poem)
-    def save_poem(self):
-        print("Saving poem")
-        with open("poem.txt", "w") as f:
-            f.write(self.state.poem)
-
-
-def kickoff():
-    poem_flow = PoemFlow()
-    poem_flow.kickoff()
-
-
-def plot():
-    poem_flow = PoemFlow()
-    poem_flow.plot()
+def plot_flow():
+    """
+    Generate flow visualization.
+    """
+    try:
+        flow_plot()
+    except Exception as e:
+        raise Exception(f"An error occurred while plotting the flow: {e}")
 
 
 if __name__ == "__main__":
-    kickoff()
+    run_flow()
+    plot_flow()
