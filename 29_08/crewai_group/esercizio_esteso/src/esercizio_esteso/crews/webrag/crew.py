@@ -2,8 +2,8 @@ from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
 from typing import List
-from crewai_tools import SerperDevTool
-from tools.custom_tool import LocalRag
+# from crewai_tools import SerperDevTool  # Commented out - not available
+from src.esercizio_esteso.tools.custom_tool import LocalRag
 from langchain_openai import AzureChatOpenAI
 import os
 import ssl
@@ -31,7 +31,7 @@ crew_llm = LLM(
     api_version=os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-01"),
     temperature=0.1)
 
-web_search_tool = SerperDevTool()
+# web_search_tool = SerperDevTool()  # Commented out - not available
 
 local_rag_tool = LocalRag()
 
@@ -51,16 +51,17 @@ class Webrag():
             llm=crew_llm
         )
 
-    @agent
-    def web_researcher(self) -> Agent:
-        # Use available tools, fallback if web tools fail
-        tools = [web_search_tool] if web_search_tool else []
-        return Agent(
-            config=self.agents_config['web_researcher'],
-            verbose=True,
-            tools=tools,
-            llm=crew_llm
-        )
+    # @agent
+    # def web_researcher(self) -> Agent:
+    #     # Use available tools, fallback if web tools fail
+    #     tools = [web_search_tool] if web_search_tool else []
+    #     return Agent(
+    #         config=self.agents_config['web_researcher'],
+    #         verbose=True,
+    #         tools=tools,
+    #         llm=crew_llm
+    #     )
+    
     @agent
     def reporting_analyst(self) -> Agent:
         return Agent(
@@ -69,11 +70,12 @@ class Webrag():
             llm=crew_llm
         )
 
-    @task
-    def web_research_task(self) -> Task:
-        return Task(
-            config=self.tasks_config['web_research_task'],
-        )
+    # @task
+    # def web_research_task(self) -> Task:
+    #     return Task(
+    #         config=self.tasks_config['web_research_task'],
+    #     )
+    
     @task
     def rag_research_task(self) -> Task:
         return Task(

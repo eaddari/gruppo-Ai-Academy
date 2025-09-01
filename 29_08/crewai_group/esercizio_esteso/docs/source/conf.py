@@ -6,7 +6,7 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'genericflow'
+project = 'esercizio_esteso'
 copyright = '2025, EY'
 author = 'EY'
 
@@ -40,7 +40,20 @@ source_suffix = {
 # documentation build time, mock them so autodoc can still import modules.
 autodoc_mock_imports = [
 	'crewai',
+	'crewai_tools',
 	'faiss',
+	'langchain',
+	'langchain_openai',
+	'langchain_community',
+	'langchain_core',
+	'openai',
+	'dotenv',
+	'bs4',
+	'httpx',
+	'anthropic',
+	'stagehand',
+	'pydantic_core',
+	'src.esercizio_esteso',
 ]
 
 

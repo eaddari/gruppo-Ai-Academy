@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import List
 
+from bs4 import BeautifulSoup
 from langchain.schema import Document
 from langchain_community.vectorstores import FAISS
 from langchain_community.docstore.in_memory import InMemoryDocstore
@@ -82,6 +83,29 @@ def llm():
         temperature=0.1
     )
 
+def extract_sphinx_docs(html_dir):
+    """Extract text from Sphinx HTML files"""
+    docs = []
+    html_path = Path(html_dir)
+    
+    for html_file in html_path.rglob("*.html"):
+        if html_file.name in ["search.html", "genindex.html"]:
+            continue  # Skip navigation files
+            
+        with open(html_file, 'r', encoding='utf-8') as f:
+            soup = BeautifulSoup(f.read(), 'html.parser')
+            
+        # Extract main content (skip navigation)
+        content = soup.find('div', {'role': 'main'})
+        if content:
+            text = content.get_text(strip=True)
+            docs.append({
+                'content': text,
+                'source': str(html_file.relative_to(html_path)),
+                'title': soup.find('title').get_text() if soup.find('title') else html_file.stem
+            })
+    
+    return docs
 
 def corpus() -> List[Document]:
     """
@@ -89,12 +113,25 @@ def corpus() -> List[Document]:
     """
     docs_path = Path(__file__).parent / "docs"
     documents = []
+    
+    # Load existing markdown docs
     for doc_path in docs_path.glob("*.md"):
         with open(doc_path, "r", encoding="utf-8") as f:
             content = f.read()
             documents.append(Document(page_content=content, metadata={"source": doc_path.name}))
+    
+    # Add Sphinx documentation
+    project_root = Path(__file__).parent.parent.parent.parent.parent
+    sphinx_html_dir = project_root / "docs" / "build" / "html"
+    if sphinx_html_dir.exists():
+        sphinx_docs = extract_sphinx_docs(sphinx_html_dir)
+        for doc in sphinx_docs:
+            documents.append(Document(
+                page_content=doc['content'],
+                metadata={"source": f"sphinx/{doc['source']}", "title": doc['title']}
+            ))
+    
     return documents
-
 
 def split_documents(docs: List[Document], settings: Settings) -> List[Document]:
     """

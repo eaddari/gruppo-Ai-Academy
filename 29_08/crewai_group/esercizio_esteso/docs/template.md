@@ -1,4 +1,4 @@
-# Esercizio Esteso Multi-Agent AI Research System
+# Generic Flow Multi-Agent AI Research System
 
 **Application Owner**: AI Academy Team - EY
 <br>**Document Version**: 1.0
@@ -6,116 +6,109 @@
 
 ## Key Links
 
-* [Code Repository](https://github.com/eaddari/gruppo-Ai-Academy/tree/progettino-venerdi/29_08/crewai_group/esercizio_esteso)
+* [Code Repository](c:\Users\FJ138WZ\OneDrive - EY\Documents\Ai Academy\deposito-addari-EY\28_08\genericflow)
 * [Deployment Pipeline](Local Development Environment)
 * [API](Azure OpenAI Integration)
 * [Cloud Account](Azure OpenAI Services)
-* [Project Management](Internal AI Academy Project)
+* [Project Management **Human-in-the-Loop Mechanisms**: 
+- **Interactive Query Formulation**: 
+  - Users provide direct natural language input for each research query with full control over topic selection
+  - Real-time query refinement capability with suggested improvements based on classification confidence
+  - Query preview and confirmation before execution with estimated processing time and resource usage
+  - Ability to modify or cancel queries during execution with clear progress indicators
 
-## Human-in-the-Loop Mechanisms
+- **Intelligent Result Review and Validation**: 
+  - All research outputs presented with confidence indicators and source attribution for independent verification
+  - Side-by-side comparison of multiple research approaches (RAG vs. web vs. math) when applicable
+  - Interactive citation exploration with direct links to source materials and relevance scoring
+  - User feedback integration for result quality assessment and system learning
 
-**Interactive Query Formulation**: 
-- Users provide direct natural language input through command-line interface with full control over topic selection
-- Simple query input system with immediate processing and clear feedback on routing decisions
-- Users can observe classification decisions (math/minecraft/general) for transparency
-- Ability to terminate processing using standard terminal controls (Ctrl+C)
+- **Selective Agent Control and Customization**: 
+  - Manual override of automatic query classification with explicit agent selection (force web/RAG/math research)
+  - Configurable research depth and breadth parameters with real-time cost and time estimates
+  - Custom agent weighting based on user preferences and domain expertise requirements
+  - Research workflow customization with saved presets for different research scenarios
 
-**Intelligent Result Review and Validation**: 
-- All research outputs presented with clear source attribution for independent verification
-- Markdown format reports allow easy review and analysis of research findings
-- Mathematical solutions show step-by-step reasoning for validation
-- Local storage of results enables offline review and comparison
-
-**Selective Agent Control and Customization**: 
-- System automatically routes queries based on content classification
-- Clear visibility into which crew (Math, RAG, or Web) is handling each query
-- Configurable through environment variables for different API endpoints and models
-- Local document corpus can be customized by modifying Minecraft documentation
-
-**Output Verification and Quality Assurance**: 
-- Comprehensive source attribution for web research results
-- Mathematical solutions include detailed step-by-step breakdown
-- RAG results reference specific document sources from local corpus
-- All outputs saved to local files for external verification tools
+- **Output Verification and Quality Assurance**: 
+  - Comprehensive source attribution with clickable references and credibility assessment
+  - Factual consistency checking between multiple sources with highlighted discrepancies
+  - Mathematical solution step-by-step breakdown with intermediate result verification capabilities
+  - Export functionality for human review in external tools (Word, PDF, structured data formats)
 
 **Override and Intervention Procedures**: 
+- **Real-time Process Control**: 
+  - Immediate termination capability using standard terminal controls (Ctrl+C) with graceful shutdown procedures
+  - Progressive cancellation options (cancel current agent, cancel current task, cancel entire workflow)
+  - Emergency stop functionality that preserves partial results and system state for recovery
+  - Process suspension and resumption for long-running research tasks with state persistence
 
-**Real-time Process Control**: 
-- Immediate termination capability using Ctrl+C with graceful shutdown
-- Each crew operation can be monitored through verbose console output
-- Flow state management allows understanding of current processing stage
-- Error handling provides clear feedback on issues and resolution steps
+- **System-level Intervention Capabilities**: 
+  - Complete system shutdown through command interface with automatic state saving
+  - Service restart procedures with configuration preservation and session recovery
+  - Manual API key rotation and re-authentication without system restart
+  - Database maintenance and optimization tools accessible through admin interface
 
-**System-level Intervention Capabilities**: 
-- Complete system shutdown through command interface
-- Service restart by re-running main.py or crewai run command
-- Manual API key rotation through environment variable updates
-- Database regeneration by deleting FAISS index files
+- **Configuration Override and Adaptation**: 
+  - Dynamic modification of agent configurations without system restart (temperature, tokens, timeout values)
+  - Real-time API endpoint switching for redundancy and performance optimization
+  - Custom prompt injection for specialized research domains with template management
+  - Resource limit adjustments based on system performance and user requirements
 
-**Configuration Override and Adaptation**: 
-- Dynamic modification of Azure OpenAI settings through environment variables
-- Adjustable temperature, model selection, and API endpoints
-- Custom document corpus modification for RAG functionality
-- Serper API configuration for web search customization
-
-**Fallback and Recovery Operations**: 
-- Manual classification override not currently implemented
-- Error handling provides fallback messages when API calls fail
-- Local processing ensures some functionality remains during network issues
-- File-based output preservation for recovery scenarios
+- **Fallback and Recovery Operations**: 
+  - Manual routing bypass for query classification failures with expert-guided agent selection
+  - Direct database query interface for advanced users to access raw vector search results
+  - Offline mode activation for air-gapped environments with cached content and local processing
+  - Data export and import procedures for system migration and backup recovery scenarios
 
 **User Instructions and Training**: 
+- **Comprehensive Documentation Suite**: 
+  - Installation guide with environment-specific instructions (Windows/macOS/Linux variations)
+  - Step-by-step configuration tutorial with screenshots and common troubleshooting scenarios
+  - API setup documentation with security best practices and credential management guidelines
+  - Performance optimization guide with hardware recommendations and scaling strategies
 
-**Comprehensive Documentation Suite**: 
-- README.md with installation and setup instructions
-- Clear environment variable configuration requirements
-- Step-by-step execution guide for different operating systems
-- CrewAI framework documentation integration
+- **Interactive Learning Resources**: 
+  - Built-in tutorial mode with sample queries and expected outputs for hands-on learning
+  - Best practices guide for query formulation with examples across different research domains
+  - Video tutorials for complex configuration scenarios and advanced usage patterns
+  - Regular webinar sessions for user community knowledge sharing and system updates
 
-**Interactive Learning Resources**: 
-- Built-in examples for each query type (math, minecraft, general)
-- Console output provides learning opportunities through verbose logging
-- Flow visualization capabilities for understanding system architecture
-- Clear error messages guide users toward resolution
+- **Operational Guidance and Support**: 
+  - Query optimization guidelines with performance tips and resource management recommendations
+  - Result interpretation framework with guidelines for assessing source credibility and relevance
+  - Error diagnosis and resolution procedures with common issue patterns and solutions
+  - Security and privacy guidelines for handling sensitive research topics and confidential information
 
-**Operational Guidance and Support**: 
-- Query formulation best practices through example inputs
-- Performance expectations set through realistic response time estimates
-- Error diagnosis through detailed console output and logging
-- Security guidelines for API key management
-
-**Advanced User Training**: 
-- Code structure documentation for developers wanting to extend functionality
-- Agent and task configuration files (YAML) for customization
-- Integration patterns for embedding into larger systems
-- Multi-agent system concepts demonstration
+- **Advanced User Training**: 
+  - System administration training for IT support staff with detailed architecture documentation
+  - Custom agent development workshop for organizations requiring specialized research capabilities
+  - Integration training for embedding the system into existing research workflows and tools
+  - Compliance and audit training covering AI Act requirements and organizational policy alignment
 
 **Limitations and Constraints of the System**: 
+- **Technical and Infrastructure Dependencies**: 
+  - **Internet Connectivity**: Requires stable broadband connection (minimum 10 Mbps) for API access and web search functionality
+  - **API Service Dependencies**: System unavailable during Azure OpenAI or Serper API outages (historical uptime: 99.9% and 99.5% respectively)
+  - **Hardware Requirements**: Minimum 8GB RAM, 2GB free disk space, Windows 10/11 or equivalent for optimal performance
+  - **Python Environment**: Strict compatibility with Python 3.10-3.14, UV package manager dependency for installation and updates
 
-**Technical and Infrastructure Dependencies**: 
-- **Internet Connectivity**: Requires stable connection for Azure OpenAI and Serper API access
-- **API Service Dependencies**: System functionality degraded during Azure OpenAI or Serper API outages
-- **Hardware Requirements**: Minimum 4GB RAM, 1GB free disk space, Windows 10/11 for optimal performance
-- **Python Environment**: Strict compatibility with Python 3.10-3.14, UV package manager required
+- **Functional and Scope Limitations**: 
+  - **Language Support**: Optimized for English language queries with limited multilingual capability (basic support for Spanish, French, German)
+  - **Real-time Data Constraints**: Cannot access information beyond Azure OpenAI training cutoff (April 2024) except through web search API
+  - **Document Format Restrictions**: RAG functionality supports text-based formats only (.txt, .md, .py, .json); PDF and image processing not currently supported
+  - **Mathematical Computation Scope**: Limited to problems expressible in natural language; cannot execute complex numerical simulations or symbolic computation
 
-**Functional and Scope Limitations**: 
-- **Language Support**: Optimized for English language queries only
-- **Real-time Data Constraints**: Limited to Azure OpenAI knowledge cutoff except through web search
-- **Document Format Restrictions**: RAG functionality limited to predefined Minecraft documentation
-- **Mathematical Computation Scope**: Limited to problems solvable through natural language processing
+- **Performance and Scaling Constraints**: 
+  - **Query Complexity**: Performance degrades significantly for queries requiring extensive context (>4000 tokens) or multi-step reasoning chains
+  - **Concurrent Usage**: Single-user system architecture; does not support multiple simultaneous users or sessions
+  - **Vector Database Scaling**: FAISS performance optimal up to 10,000 documents; larger corpora may require manual optimization or alternative indexing strategies
+  - **API Rate Limiting**: Subject to Azure OpenAI (60 RPM) and Serper (100 queries/hour) rate limits affecting throughput during intensive research sessions
 
-**Performance and Scaling Constraints**: 
-- **Query Complexity**: Single-threaded processing with sequential crew execution
-- **Concurrent Usage**: Single-user system architecture only
-- **Vector Database Scaling**: FAISS optimal for small document corpus (<100 documents)
-- **API Rate Limiting**: Subject to Azure OpenAI and Serper rate limits
-
-**Content and Quality Limitations**: 
-- **Information Accuracy**: Cannot guarantee factual accuracy of AI-generated content
-- **Bias and Perspective**: Subject to training data biases in Azure OpenAI models
-- **Source Verification**: Users must independently verify all research results
-- **Professional Advice Exclusion**: Not designed for medical, legal, or financial advice
-
+- **Content and Quality Limitations**: 
+  - **Information Accuracy**: Cannot guarantee factual accuracy of generated content; requires human verification of critical information
+  - **Bias and Perspective**: Subject to inherent biases in training data and web search results; may not represent diverse viewpoints adequately
+  - **Source Verification**: While citations are provided, users must independently verify source credibility and relevance for their specific use cases
+  - **Professional Advice Exclusion**: Explicitly not designed for medical diagnoses, legal counsel, financial advice, or other professional services requiring licensed expertiseInternal AI Academy Project)
 * [Application Architecture](CrewAI Flow-based Multi-Agent System)
 
 ## General Information 
@@ -129,18 +122,18 @@ EU AI Act <a href="https://artificialintelligenceact.eu/article/11/" style="colo
 
 **Purpose and Intended Use**:
     
-* **Description**: The Esercizio Esteso system is a CrewAI Flow-based multi-agent AI research platform that intelligently routes user queries to specialized research crews. The system classifies queries into three categories: mathematical problems (handled by Math crew), Minecraft dirt block questions (handled by RAG crew), and general topics (handled by Web research crew).
-* **Problem Solved**: Automates research tasks by intelligently classifying and routing queries to the most appropriate specialized agent crew, providing comprehensive research results with source attribution.
-* **Target Users**: Students, researchers, and developers working on multi-agent AI systems, particularly those learning CrewAI framework implementation.
+* **Description**: The Generic Flow system is a multi-agent AI research platform designed to intelligently route user queries to specialized research crews. The system leverages retrieval-augmented generation (RAG), web search, and mathematical problem-solving capabilities to provide comprehensive research and analysis.
+* **Problem Solved**: Automates complex research tasks by intelligently routing queries to appropriate specialized agents (web research, local document search, mathematical computation) based on query classification.
+* **Target Users**: Researchers, analysts, students, and knowledge workers requiring automated research assistance across multiple domains.
 * **Stakeholders**: AI Academy team, EY personnel, and educational users.
 * **Measurable Goals**: 
-  - Query classification accuracy > 90% for the three categories (math/minecraft/general)
-  - Research completion time < 10 minutes per query
-  - User satisfaction with research quality > 80%
-* **Ethical Implications**: Ensures data privacy through local document processing for RAG, provides source attribution for web research, and maintains transparency in mathematical computations.
+  - Query classification accuracy > 95%
+  - Research completion time < 5 minutes per query
+  - User satisfaction with research quality > 85%
+* **Ethical Implications**: Ensures data privacy by processing local documents, provides source attribution, and maintains transparency in AI-generated content.
 * **Regulatory Constraints**: Complies with data protection requirements through local processing and secure Azure OpenAI integration.
-* **Prohibited Uses**: Not intended for generating harmful content, professional advice, medical diagnoses, or legal counsel.
-* **Operational Environment**: Runs locally on Windows systems with Python 3.10-3.14, requires Azure OpenAI API access, processes local Minecraft-related documents through FAISS vector database.
+* **Prohibited Uses**: Not intended for generating harmful content, personal advice, medical diagnoses, or legal counsel.
+* **Operational Environment**: Runs locally on Windows systems with Python 3.10-3.14, requires Azure OpenAI API access, processes local documents through FAISS vector database.
 
 
 ## Risk classification
@@ -172,44 +165,40 @@ EU AI Act <a href="https://artificialintelligenceact.eu/article/11/" style="colo
 
 * **Instructions for use for deployers**: 
   - Install Python 3.10-3.14 and UV package manager
-  - Configure Azure OpenAI credentials in environment variables (AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_API_KEY, etc.)
-  - Install Serper API key for web search functionality
+  - Configure Azure OpenAI credentials in environment variables
   - Run `crewai install` to install dependencies
-  - Execute `crewai run` or `python src/esercizio_esteso/main.py` to start the system
-  - Input research topics when prompted (mathematical equations, Minecraft dirt questions, or general topics)
-  - Review generated reports in the output folder (research_report.md)
+  - Execute `crewai run` to start the system
+  - Input research topics when prompted
+  - Review generated reports in the output folder
 
 * **Model Capabilities**:
-  - **Can do**: Classify queries into math/minecraft/general categories; perform local document search for Minecraft dirt blocks using RAG; conduct web research using Serper API; solve mathematical equations; generate comprehensive research reports; provide source citations; visualize flow execution
-  - **Cannot do**: Access real-time data beyond training cutoff; perform actions outside the system; provide medical, legal, or financial advice; process non-text documents; handle multiple simultaneous users
-  - **Supported**: English language queries, mathematical equations, Minecraft dirt block questions, general research topics, text-based document formats
-  - **Limitations**: RAG limited to Minecraft dirt documentation, dependent on Azure OpenAI and Serper API availability, single-user architecture
+  - **Can do**: Classify queries into research, math, or web categories; perform local document search using RAG; conduct web research using Serper API; solve mathematical equations; generate comprehensive research reports; provide source citations
+  - **Cannot do**: Access real-time data beyond training cutoff; perform actions outside the system; provide medical, legal, or financial advice; access private or restricted databases
+  - **Supported**: English language queries, text-based research topics, mathematical equations, local document formats supported by FAISS
+  - **Limitations**: Dependent on Azure OpenAI API availability, limited to local document corpus, web search limited by Serper API rate limits
 
 * **Input Data Requirements**:
   - **Format**: Natural language text queries
-  - **Quality**: Clear, specific questions or mathematical problems
-  - **Valid inputs**: "What are dirt blocks in Minecraft?", "Calculate 2+2*3", "Research artificial intelligence trends"
-  - **Invalid inputs**: Binary files, images, audio, extremely long texts (>4000 tokens), ambiguous requests
+  - **Quality**: Clear, specific research questions or mathematical problems
+  - **Valid inputs**: "What is artificial intelligence?", "Calculate 2+2*3", "Research climate change trends"
+  - **Invalid inputs**: Binary files, images, audio, or extremely long texts (>4000 tokens)
 
 * **Output Explanation**:
-  - **Research results**: Structured markdown reports with comprehensive analysis and source attribution
-  - **Mathematical solutions**: Step-by-step calculations with clear explanations
-  - **Confidence measures**: Implicit through source citation and method transparency
-  - **Uncertainty handling**: System indicates routing decision and method used for transparency
+  - **Research results**: Structured markdown reports with bullet points and detailed sections
+  - **Mathematical solutions**: Step-by-step calculations with final answers
+  - **Confidence measures**: Not explicitly provided, but source attribution included for verification
+  - **Uncertainty handling**: System indicates when no relevant information is found
 
 * **System Architecture Overview**:
-  - **CrewAI Flow orchestration**: State-based flow management with intelligent routing
-  - **Three specialized crews**: 
-    - **WebRAG Crew**: Handles both web research (SerperDevTool) and local RAG research (FAISS + Minecraft docs)
-    - **Math Crew**: Processes mathematical equations using Azure OpenAI
-    - **Summary/Explanation Crew**: Synthesizes results and creates final reports
+  - **Flow-based orchestration**: Uses CrewAI Flow framework for state management
+  - **Multi-agent system**: Specialized agents for web research, RAG research, math solving, and reporting
   - **Key components**: 
-    - Two-stage query classification (math vs non-math, then minecraft vs general)
-    - FAISS vector database for Minecraft dirt block documentation
-    - Azure OpenAI integration for LLM processing and embeddings
-    - Serper API for web search capabilities
-    - Local file system for document storage and output generation
-    - Flow visualization and monitoring capabilities
+    - Query classifier using Azure OpenAI
+    - FAISS vector database for local document storage
+    - Serper API for web search
+    - Azure OpenAI for LLM capabilities
+    - Structured data models using Pydantic
+    - Local file system for document corpus and output storage
 
 ## Models and Datasets
 
@@ -237,9 +226,9 @@ Link to all dataset documentation and information used to evaluate the AI/ML Sys
 
 | Dataset   | Link to Single Source of Truth | Description of Application Usage |
 |-----------|--------------------------------|----------------------------------|
-| Minecraft Dirt Block Documentation | [Local Knowledge Base](./src/esercizio_esteso/crews/rag/docs/) | **Purpose**: Educational corpus containing comprehensive information about Minecraft dirt blocks for RAG demonstration. **Format**: Markdown files (.md) with structured content about dirt block types, properties, and usage. **Scope**: Three documents covering dirt overview, types, and facts. **Provenance**: Manually curated educational content for system demonstration. **Characteristics**: Small, focused corpus (~3 documents, <10KB total) with consistent formatting. **Data Quality**: High-quality, structured information designed for educational RAG examples. **Privacy**: Local processing only, no external transmission. **Specific Files**: minecraft_dirt_overview.md, minecraft_dirt_types.md, minecraft_dirt_facts.md |
-| Serper Web Search API Results | [Serper API Documentation](https://serper.dev/) | **Purpose**: Real-time web search results for general topics beyond the local Minecraft corpus. **Data Source**: Google Search results aggregated through Serper API. **Update Frequency**: Real-time per query. **Coverage**: Global web content, primarily English language. **Rate Limits**: 2500 queries/month on free tier. **Data Retention**: Results processed and discarded after synthesis, no persistent storage. **Quality Control**: Serper's built-in content filtering and relevance ranking. **Usage Pattern**: Activated only for non-mathematical, non-Minecraft queries. |
-| ChromaDB Vector Metadata | [./db/chroma.sqlite3](./db/chroma.sqlite3) | **Purpose**: SQLite database for storing FAISS vector index metadata and document relationships. **Schema**: Document IDs, vector references, metadata (file paths, chunk information, timestamps). **Size**: Minimal footprint, typically <1MB for small document corpus. **Backup**: File-based local backup with Git version control. **Performance**: SQLite provides ACID compliance for metadata consistency. **Security**: Local file system permissions, no network exposure. **Content**: Metadata only, no document content stored in ChromaDB. |
+| Local Document Corpus | [Local Knowledge Base](./docs/) | **Purpose**: User-curated collection of research documents and reference materials. **Format**: Text files (.txt, .md, .pdf support planned), structured documents. **Scope**: Domain-specific knowledge base customizable per deployment. **Provenance**: User-provided documents with full data lineage tracking. **Characteristics**: Variable size (10MB-1GB typical), multilingual support (English primary), versioned content. **Data Quality**: Manual curation by users, no automated labeling. **Privacy**: Processed locally, never transmitted to external services. |
+| Serper Web Search API Results | [Serper API Documentation](https://serper.dev/) | **Purpose**: Real-time web search results for current information beyond local corpus. **Data Source**: Google Search results aggregated through Serper API. **Update Frequency**: Real-time per query. **Coverage**: Global web content in multiple languages. **Rate Limits**: 2500 queries/month on free tier. **Data Retention**: Results cached temporarily during session, not persisted. **Quality Control**: Serper's built-in content filtering and relevance ranking. |
+| ChromaDB Vector Metadata | [./db/chroma.sqlite3](./db/chroma.sqlite3) | **Purpose**: Persistent storage for document metadata, embeddings, and vector search indices. **Schema**: Document IDs, embedding vectors (1536-dim), metadata (timestamps, source paths, chunk indices). **Size**: Scales with document corpus, typically 10-100MB. **Backup**: Local file-based backup strategy. **Performance**: SQLite-based for ACID compliance and data integrity. **Security**: Local file system permissions, no external network access. |
 
 ## Deployment
     
@@ -337,42 +326,43 @@ Link to all dataset documentation and information used to evaluate the AI/ML Sys
   - **Quality Assurance**: Output validation, factual accuracy checks where possible
 
 * **Versioning and Change Logs**: 
-  - **Current Version**: 0.1.0 (Initial development version based on pyproject.toml)
-  - **Version Control**: Git repository tracking with branch management (currently on ocr-crew branch)
-  - **Change Management**: Documented through pyproject.toml dependencies and project structure
+  - **Current Version**: 0.1.0 (Initial development version)
+  - **Version Control**: Local Git repository tracking
+  - **Change Management**: Documented in pyproject.toml and README.md updates
 
 * **Metrics**:
   - **Application Performance**: 
-    - Average response time: Target < 30 seconds per query (varies by crew type)
-    - Error rate: Target < 10% of total requests
-    - Query classification accuracy: Target > 90% for three-way classification
+    - Average response time: Target < 10 seconds per query
+    - Error rate: Target < 5% of total requests
+    - Query classification accuracy: Target > 95%
   - **Model Performance**: 
-    - Research relevance: Measured through output quality and source accuracy
-    - Mathematical accuracy: Validated through Azure OpenAI's mathematical reasoning
-    - RAG retrieval accuracy: Limited to Minecraft documentation scope
+    - Research relevance: Measured by user feedback
+    - Source accuracy: Verified through citation checking
+    - Mathematical accuracy: Validated through test cases
   - **Infrastructure**: 
-    - Local CPU and memory usage during FAISS operations
-    - Network latency for Azure OpenAI and Serper API calls
-    - Local storage utilization for vector indices and outputs
+    - CPU usage during processing
+    - Memory consumption for vector operations
+    - Network latency for API calls
+    - Local storage utilization
 
 * **Key Activities**:
-  - **Real-time Monitoring**: Console logging of crew execution and API responses
-  - **Performance Tracking**: Manual assessment of query success rates and result quality
-  - **Issue Resolution**: Error handling and user guidance through console output
-  - **Regular Updates**: Dependency management through UV and CrewAI framework updates
+  - **Real-time Monitoring**: API response times, error rates, system resource usage
+  - **Performance Tracking**: Query success rates, user satisfaction metrics
+  - **Issue Resolution**: Automated error logging, manual review of failed queries
+  - **Regular Updates**: Model version updates through Azure OpenAI, dependency updates via UV
 
 * **Documentation Needs**:
-  - **Monitoring Logs**: Console output and local file logging
-  - **Incident Reports**: Manual documentation of system failures in development environment
-  - **Usage Statistics**: File-based tracking of query patterns and crew usage
-  - **Audit Trails**: API call history through Azure OpenAI and Serper logs
+  - **Monitoring Logs**: System logs in local files, API call logs, error tracking
+  - **Incident Reports**: Manual documentation of system failures and resolutions
+  - **Usage Statistics**: Query volume, classification distribution, success rates
+  - **Audit Trails**: API call history, user interaction logs (anonymized)
 
 * **Maintenance of Change Logs**:
-  - **New Features**: CrewAI Flow implementation, three-crew architecture, FAISS integration
-  - **Updates**: Azure OpenAI model compatibility, Serper API integration
-  - **Deprecated**: Single-agent approaches, direct OpenAI API usage
-  - **Bug Fixes**: Error handling improvements, environment variable management
-  - **Security Fixes**: API key management, SSL configuration for external calls
+  - **New Features**: Multi-agent routing capabilities, FAISS integration, mathematical problem solving
+  - **Updates**: CrewAI framework updates, Azure OpenAI model improvements
+  - **Deprecated**: Legacy single-agent approach
+  - **Bug Fixes**: Error handling improvements, API timeout management
+  - **Security Fixes**: API key management, input validation enhancements
 
 ### Risk Management System
 
@@ -726,6 +716,9 @@ These cybersecurity measures implement comprehensive threat modeling, data prote
 
 **Limitations and Constraints of the System:** Clearly state what the AI system cannot do, including any known weaknesses or scenarios where performance may degrade.
 
+
+## Incident Management
+
 * **Common Issues**:
   - **API Authentication Failures**: Check Azure OpenAI and Serper API credentials in environment variables
   - **Network Connectivity**: Verify internet connection and API endpoint accessibility
@@ -914,65 +907,36 @@ conformity is declared; the name and identification number of the notified body,
 assessment procedure performed, and identification of the certificate issued; the place and date of issue of the declaration, the name and function of the person who signed it, as well as an
 indication for, or on behalf of whom, that person signed, a signature.-->
 
-
-## Incident Management
-
-* **Common Issues**:
-  - **API Authentication Failures**: Check Azure OpenAI and Serper API credentials in environment variables
-  - **Network Connectivity**: Verify internet connection and API endpoint accessibility  
-  - **Local Document Access**: Ensure Minecraft document corpus is accessible in crews/rag/docs/
-  - **Memory/Storage Issues**: Monitor local disk space and system memory during FAISS operations
-  - **Query Classification Errors**: Review query formulation for mathematical vs non-mathematical content
-  - **Package Dependency Conflicts**: Use `crewai install` or `uv sync` to resolve dependency issues
-
-* **Debugging and Troubleshooting**:
-  - **System Logs**: Check console output for detailed error messages and crew execution traces
-  - **API Response Monitoring**: Review Azure OpenAI and Serper API response status through verbose logging
-  - **Vector Database Status**: Verify FAISS index creation and document loading in crews/rag/
-  - **Environment Validation**: Confirm all required environment variables are set (AZURE_OPENAI_*, SERPER_API_KEY)
-  - **Dependency Verification**: Use `uv list` to verify CrewAI and related package installations
-
-* **Support Contact**:
-  - **Primary Contact**: AI Academy Team - EY (Internal project)
-  - **Technical Issues**: Local development environment troubleshooting
-  - **Documentation**: CrewAI documentation (https://docs.crewai.com) and Azure OpenAI service documentation
-  - **Community Support**: CrewAI GitHub repository for framework-specific issues
-
 ### Standards applied
 
 **Technical Standards**:
-- **CrewAI Framework**: Multi-agent orchestration framework for AI workflows (version >=0.165.1)
-- **FAISS (Facebook AI Similarity Search)**: Vector similarity search for efficient document retrieval (faiss-cpu >=1.12.0)
+- **CrewAI Framework**: Multi-agent orchestration framework for AI workflows
+- **FAISS (Facebook AI Similarity Search)**: Vector similarity search for efficient document retrieval
 - **Pydantic**: Data validation and settings management using Python type annotations
 - **Azure OpenAI Service**: Enterprise-grade AI services with built-in safety and compliance features
-- **UV Package Manager**: Modern Python package and project management tool
-- **Python 3.10-3.14**: Required Python version range for compatibility
 
 **AI and ML Standards**:
-- **Azure OpenAI API Standards**: RESTful API design principles for AI service integration
+- **OpenAI API Standards**: RESTful API design principles for AI service integration
 - **Vector Database Standards**: FAISS indexing standards for semantic search capabilities
-- **LangChain Integration**: Document processing and chain construction for RAG implementations
-- **CrewAI Flow Patterns**: State-based flow management and agent coordination best practices
+- **LLM Best Practices**: Prompt engineering and response handling best practices
 
 **Security and Privacy Standards**:
-- **HTTPS/TLS**: Encrypted communication for all external API calls (Azure OpenAI, Serper)
+- **HTTPS/TLS**: Encrypted communication for all external API calls
 - **Environment Variable Management**: Secure credential storage and management practices
-- **Local Data Processing**: Data minimization through local document processing and FAISS indexing
-- **SSL Context Management**: Custom SSL context configuration for API connections
+- **Local Data Processing**: Data minimization through local document processing
 
 **Software Development Standards**:
 - **Python PEP Standards**: Code formatting and structure following Python enhancement proposals
-- **Virtual Environment Isolation**: Dependency management through UV and Python virtual environments
-- **Configuration Management**: YAML-based agent and task configuration with environment-based API settings
-- **Project Structure**: CrewAI project template structure with organized crew, agent, and task definitions
+- **Virtual Environment Isolation**: Dependency management through Python virtual environments
+- **Configuration Management**: Environment-based configuration for different deployment scenarios
 
 ## Documentation Metadata
 
 ### Template Version
-**Version 1.1** - Based on EU AI Act compliance template for Limited Risk AI systems, adapted for CrewAI multi-agent research applications. Updated to accurately reflect the Esercizio Esteso project structure and functionality.
+**Version 1.0** - Based on EU AI Act compliance template for Limited Risk AI systems, adapted for multi-agent research applications.
 
 ### Documentation Authors
 
-* **AI Academy Team, EY:** (Owner) - System development and implementation of Esercizio Esteso multi-agent system
-* **GitHub Copilot Assistant:** (Contributor) - Documentation correction and AI Act compliance mapping
+* **AI Academy Team, EY:** (Owner) - System development and implementation
+* **GitHub Copilot Assistant:** (Contributor) - Documentation completion and AI Act compliance mapping
 * **Technical Review Team, EY:** (Manager) - Technical validation and compliance oversight

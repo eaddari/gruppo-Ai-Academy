@@ -1,39 +1,12 @@
 #!/usr/bin/env python
-import sys
 import warnings
-import ssl
-import os
-
-from datetime import datetime
-
-from flow_copy import GenericFlow, kickoff as flow_kickoff, plot as flow_plot
+from flow_documentation import kickoff as flow_kickoff, plot as flow_plot
 
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 
-# This main file is intended to be a way for you to run your
-# crew locally, so refrain from adding unnecessary logic into this file.
-# Replace with inputs you want to test with, it will automatically
-# interpolate any tasks and agents information
-
-def run():
-    """
-    Run the crew directly.
-    """
-    inputs = {
-        'topic': input('Enter topic: '),
-        'current_year': str(datetime.now().year)
-    }
-    
-    try:
-        result = GenericFlow().crew().kickoff(inputs=inputs)
-        print("✅ Crew execution completed!")
-        return result
-    except Exception as e:
-        raise Exception(f"An error occurred while running the crew: {e}")
-
 def run_flow():
     """
-    Run the WebRAG flow (recommended).
+    Run the documentation generation flow.
     """
     try:
         result = flow_kickoff()
