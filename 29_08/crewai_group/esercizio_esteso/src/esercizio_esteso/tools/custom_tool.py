@@ -33,7 +33,7 @@ class LocalRag(BaseTool):
         """Import RAG functions dynamically."""
         try:
             # Add the rag directory to Python path
-            rag_dir = Path(__file__).parent.parent.parent / "rag"
+            rag_dir = Path(__file__).parent.parent / "crews" / "rag"
             if str(rag_dir) not in sys.path:
                 sys.path.insert(0, str(rag_dir))
             

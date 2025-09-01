@@ -8,21 +8,21 @@ rag_research_task:
     A list with 10 bullet points of the most relevant information about {topic}
   agent: rag_researcher
 
-math_task:
-  description: >
-    Solve the following math problem: {problem}
-  expected_output: >
-    The solution to the math problem.
-  agent: math_tool_agent
+# math_task:
+#   description: >
+#     Solve the following math problem: {problem}
+#   expected_output: >
+#     The solution to the math problem.
+#   agent: math_tool_agent
   
-web_research_task:
-  description: >
-    Conduct a thorough web research about {topic}
-    Make sure you find any interesting and relevant information given
-    the current year is {current_year}.
-  expected_output: >
-    A list with 10 bullet points of the most relevant information about {topic}
-  agent: web_researcher
+# web_research_task:
+#   description: >
+#     Conduct a thorough web research about {topic}
+#     Make sure you find any interesting and relevant information given
+#     the current year is {current_year}.
+#   expected_output: >
+#     A list with 10 bullet points of the most relevant information about {topic}
+#   agent: web_researcher
 
 reporting_task:
   description: >
