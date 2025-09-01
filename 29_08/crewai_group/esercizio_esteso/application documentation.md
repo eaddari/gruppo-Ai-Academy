@@ -6,7 +6,7 @@
 
 ## Key Links
 
-* [Code Repository](c:\Users\FJ138WZ\OneDrive - EY\Documents\Ai Academy\gruppo-Ai-Academy\29_08\crewai_group\esercizio_esteso)
+* [Code Repository](https://github.com/eaddari/gruppo-Ai-Academy/tree/progettino-venerdi/29_08/crewai_group/esercizio_esteso)
 * [Deployment Pipeline](Local Development Environment)
 * [API](Azure OpenAI Integration)
 * [Cloud Account](Azure OpenAI Services)
