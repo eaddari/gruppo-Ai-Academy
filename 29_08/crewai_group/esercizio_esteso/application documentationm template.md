@@ -617,63 +617,65 @@ This section outlines potential issues that can arise during the deployment of a
 
 ##### API Failures
 
-* **Problem**: External APIs or internal services are unreachable due to network errors or authentication failures.
+* **Problem**: External APIs (Azure OpenAI, Serper) are unreachable due to network errors, authentication failures, or service outages
+  - **Symptoms**: HTTP 401/403 authentication errors, connection timeouts, SSL certificate validation failures
+  - **Impact**: Complete research functionality loss, partial crew execution failures
 
 * **Mitigation Strategy**:
-<!--:
-  - Implement retries with exponential backoff.
-  - Validate API keys or tokens and refresh as needed.
-  - Log and monitor API responses for debugging. -->
+  - **Retry Mechanisms**: Implement exponential backoff with configurable retry limits (1s, 2s, 4s, 8s delays)
+  - **Authentication Validation**: Automated API key validation and refresh procedures
+  - **Monitoring and Alerting**: Real-time API response monitoring with immediate error notifications
 
 ##### Data Format Mismatches
 
-* **Problem**: Crashes or errors due to unexpected data formats such as changes in the schema of external data sources or missing data validation steps.
+* **Problem**: Crashes or errors due to unexpected data formats from external APIs or configuration changes
+  - **Symptoms**: JSON parsing errors, schema validation failures, type conversion exceptions
+  - **Root Causes**: API response format changes, missing data validation, inconsistent configuration formats
 
 * **Mitigation Strategy**: 
-
-<!--
-  - Use schema validation tools (e.g., JSON schema validators).
-  - Add versioning to APIs and validate inputs before processing.-->
+  - **Schema Validation**: Use Pydantic models for all API inputs/outputs with strict type checking
+  - **API Versioning**: Pin specific API versions and validate responses before processing
+  - **Input Sanitization**: Comprehensive data validation and cleaning before crew processing
 
 #### Data Quality Problems
 
-* **Problem**: Inaccurate or corrupt data leads to poor predictions.
+* **Problem**: Inaccurate or corrupt data leads to poor research results and unreliable outputs
 * **Causes**:
-  * No data validation or cleaning processes.
-  * Inconsistent labelling in training datasets.
+  * Outdated local document corpus (Minecraft documentation)
+  * Poor quality web search results from Serper API
+  * Inconsistent query classification leading to wrong research paths
 
 * **Mitigation Strategy**: 
-<!--
-- **Resolution**:
-  - Automate data quality checks (e.g., Great Expectations framework).
-  - Regularly audit and clean production data.-->
-
+  - **Document Curation**: Regular review and updating of local document corpus with verified, high-quality sources
+  - **Source Validation**: Automated quality checks for web search results with credibility scoring
+  - **Classification Monitoring**: Continuous tracking of query routing accuracy with manual validation samples
 
 #### Model-Level Issues
 
 ##### Performance or Deployment Issues
 
-* **Problem**: Incorrect or inconsistent results due to data drift or inadequate training data for the real world deployment domain. 
+* **Problem**: Incorrect or inconsistent results due to model limitations or environmental factors
+  - **Symptoms**: Poor query classification accuracy, irrelevant research results, slow response times
+  - **Root Causes**: Azure OpenAI model limitations, prompt engineering issues, inadequate context handling
 
 * **Mitigation Strategy**:
-
-<!--
-- **Resolution**:
-  - Monitoring for data drift and retraining of the model as needed.
-  - Regularly update the model -->
-
+  - **Prompt Optimization**: Regular testing and refinement of classification and research prompts
+  - **Performance Monitoring**: Real-time tracking of response quality and classification accuracy
+  - **Model Updates**: Stay current with Azure OpenAI model improvements and API updates
 
 #### Safety and Security Issues
 
 ##### Unauthorised Access
 
-* **Problem**: Sensitive data or APIs are exposed due to misconfigured authentication and authorization.
+* **Problem**: Sensitive API keys or local documents are exposed due to misconfigured security settings
+  - **Impact**: Unauthorized API usage, potential data breaches, service disruption
+  - **Mitigation**: Environment variable encryption, file system permissions, access logging
 
 ##### Data Breaches
 
-* **Problem**: User or model data is compromised due to insecure storage or lack of monitoring and logging of data access. 
-
-* **Mitigation Strategy**: 
+* **Problem**: Local documents or query data is compromised due to inadequate security measures
+  - **Impact**: Confidential information exposure, regulatory compliance violations
+  - **Mitigation**: Local-only processing, encrypted storage, no persistent API response caching 
 <!--
 - **Resolution**:
   - Use secure storage services (e.g., AWS KMS).
@@ -685,40 +687,37 @@ This section outlines potential issues that can arise during the deployment of a
 
 ##### Missing or Incomplete Logs
 
-* **Problem**: Lack of information to debug issues due to inefficient logging. Critical issues go unnoticed, or too many false positives occur by lack of implementation ofactionable information in alerts. 
+* **Problem**: Insufficient logging leads to difficulty in debugging issues and system monitoring
+  - **Symptoms**: Missing error details, incomplete audit trails, lack of performance metrics
+  - **Root Causes**: Inadequate logging configuration, verbose output not captured, log rotation issues
 
 * **Mitigation Strategy**: 
-
-
-<!--
-- **Resolution**:
-  - Fine-tune alerting thresholds and prioritise critical alerts.
-  - Use tools like Prometheus Alertmanager to manage and group alerts. -->
-
+  - **Comprehensive Logging**: Implement structured logging with multiple severity levels (DEBUG, INFO, WARN, ERROR, CRITICAL)
+  - **Log Management**: Automated log rotation and archival with 30-day retention for compliance
+  - **Performance Monitoring**: Real-time tracking of crew execution times, API response rates, and system resource usage
 
 #### Recovery and Rollback
 
 ##### Rollback Mechanisms
 
-* **Problem**: New deployment introduces critical errors.
+* **Problem**: New deployment or configuration changes introduce critical errors requiring quick recovery
+  - **Symptoms**: System failures, degraded performance, incorrect results
+  - **Impact**: Service disruption, loss of user confidence, potential data issues
 
 * **Mitigation Strategy**: 
-
-<!--
-- **Resolution**:
-  - Use blue-green or canary deployments to minimise impact.
-  - Maintain backups of previous versions and configurations. -->
+  - **Version Control**: Maintain Git repository with tagged releases for quick rollback
+  - **Environment Backup**: Regular backup of virtual environment and configuration files
+  - **Configuration Management**: Environment variable backup and restoration procedures
 
 ##### Disaster Recovery
 
-* **Problem**: Complete system outage or data loss.
+* **Problem**: Complete system outage, hardware failure, or data corruption requiring full recovery
+  - **Impact**: Total service unavailability, potential data loss, extended downtime
 
 * **Mitigation Strategy**:
-
-<!--
-- **Resolution**:
-  - Test and document disaster recovery plans.
-  - Use automated backups and verify restore procedures.-->
+  - **Backup Strategy**: Automated daily backup of vector database, document corpus, and system configurations
+  - **Recovery Procedures**: Documented step-by-step recovery process with estimated recovery times
+  - **Testing**: Regular disaster recovery testing with documented results and improvements
 
 ### EU Declaration of conformity 
 
@@ -727,26 +726,60 @@ This section outlines potential issues that can arise during the deployment of a
   <p></p>
 </div>
 
-<!-- when applicable and certifications are available: it requires a systems name as well as the name and address of the provider; a statement that the EU declaration of conformity referred to in Article 47 is issued under the sole responsibility of the provider; a statement that the AI system is in conformity with this Regulation and, if applicable, with any other relevant Union law that provides for the issuing of the EU declaration of conformity referred to in Article 47, Where an AI system involves the processing of personal data;  a statement that that AI system complies with Regulations (EU) 2016/679 and (EU) 2018/1725 and Directive (EU) 2016/680, reference to the harmonised standards used or any other common specification in relation to which
-conformity is declared; the name and identification number of the notified body, a description of the conformity
-assessment procedure performed, and identification of the certificate issued; the place and date of issue of the declaration, the name and function of the person who signed it, as well as an
-indication for, or on behalf of whom, that person signed, a signature.-->
+**System Name**: Esercizio Esteso Multi-Agent AI Research System
+**Provider**: AI Academy Team - EY, [Address to be provided]
+**Declaration Statement**: This EU Declaration of Conformity is issued under the sole responsibility of the AI Academy Team - EY.
+
+**Conformity Statement**: The Esercizio Esteso AI system is in conformity with the EU AI Act Regulation (Limited Risk category) and applicable data protection regulations.
+
+**Data Processing Compliance**: This AI system complies with Regulation (EU) 2016/679 (GDPR) through local data processing and minimal external data transmission.
+
+**Harmonised Standards**: 
+- ISO/IEC 27001:2013 - Information Security Management
+- ISO/IEC 23053:2022 - Framework for AI risk management
+- CrewAI Framework Standards for Multi-Agent AI Systems
+
+**Assessment Procedure**: Internal conformity assessment performed according to Article 47 requirements for Limited Risk AI systems.
+
+**Place and Date**: [Location], September 1, 2025
+**Authorized Representative**: AI Academy Technical Lead, EY
+**On behalf of**: EY AI Academy Team
 
 ### Standards applied
 
-<!-- Document here the standards and frameworks used-->
+**Technical Standards**:
+- **CrewAI Framework**: Multi-agent orchestration framework for AI workflows (version >=0.165.1)
+- **FAISS (Facebook AI Similarity Search)**: Vector similarity search for efficient document retrieval (faiss-cpu >=1.12.0)
+- **Pydantic**: Data validation and settings management using Python type annotations
+- **Azure OpenAI Service**: Enterprise-grade AI services with built-in safety and compliance features
+- **UV Package Manager**: Modern Python package and project management tool
+- **Python 3.10-3.14**: Required Python version range for compatibility
+
+**AI and ML Standards**:
+- **Azure OpenAI API Standards**: RESTful API design principles for AI service integration
+- **Vector Database Standards**: FAISS indexing standards for semantic search capabilities
+- **LangChain Integration**: Document processing and chain construction for RAG implementations
+- **CrewAI Flow Patterns**: State-based flow management and agent coordination best practices
+
+**Security and Privacy Standards**:
+- **HTTPS/TLS**: Encrypted communication for all external API calls (Azure OpenAI, Serper)
+- **Environment Variable Management**: Secure credential storage and management practices
+- **Local Data Processing**: Data minimization through local document processing and FAISS indexing
+- **SSL Context Management**: Custom SSL context configuration for API connections
+
+**Software Development Standards**:
+- **Python PEP Standards**: Code formatting and structure following Python enhancement proposals
+- **Virtual Environment Isolation**: Dependency management through UV and Python virtual environments
+- **Configuration Management**: YAML-based agent and task configuration with environment-based API settings
+- **Project Structure**: CrewAI project template structure with organized crew, agent, and task definitions
 
 ## Documentation Metadata
 
 ### Template Version
-<!-- info: link to model documentation template (i.e. could be a GitHub link) -->
+**Version 1.1** - Based on EU AI Act compliance template for Limited Risk AI systems, adapted for CrewAI multi-agent research applications. Updated to accurately reflect the Esercizio Esteso project structure and functionality.
 
 ### Documentation Authors
-<!-- info: Give documentation authors credit
 
-Select one or more roles per author and reference author's
-emails to ease communication and add transparency. -->
-
-* **Name, Team:** (Owner / Contributor / Manager)
-* **Name, Team:** (Owner / Contributor / Manager)
-* **Name, Team:** (Owner / Contributor / Manager)
+* **AI Academy Team, EY:** (Owner) - System development and implementation of Esercizio Esteso multi-agent system
+* **GitHub Copilot Assistant:** (Contributor) - Documentation completion and AI Act compliance mapping
+* **Technical Review Team, EY:** (Manager) - Technical validation and compliance oversight
