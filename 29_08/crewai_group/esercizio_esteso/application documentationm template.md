@@ -1,6 +1,6 @@
 # Esercizio Esteso Multi-Agent AI Research System - EU AI Act Compliant Documentation
 
-**Application Owner**: AI Academy Team - EY (ai-academy@ey.com)
+**Application Owner**: AI Academy Team
 <br>**Document Version**: 1.0 - EU AI Act Compliant
 <br>**Reviewers**: Technical Review Team, Compliance Team, AI Ethics Committee
 
