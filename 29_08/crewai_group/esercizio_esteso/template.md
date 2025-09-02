@@ -1,16 +1,114 @@
 # Generic Flow Multi-Agent AI Research System
 
-**Application Owner**: [Not provided]
-<br>**Document Version**: [Not provided]
-<br>**Reviewers**: [Not provided]
+**Application Owner**: AI Academy Team - EY
+<br>**Document Version**: 1.0
+<br>**Reviewers**: To be assigned
 
 ## Key Links
 
-* [Code Repository]([Not provided])
-* [Deployment Pipeline]([Not provided])
-* [API Documentation]([Not provided])
-* [Cloud Account details]([Not provided])
-* [Project Management Board URL]([Not provided])
+* [Code Repository](c:\Users\FJ138WZ\OneDrive - EY\Documents\Ai Academy\deposito-addari-EY\28_08\genericflow)
+* [Deployment Pipeline](Local Development Environment)
+* [API](Azure OpenAI Integration)
+* [Cloud Account](Azure OpenAI Services)
+* [Project Management **Human-in-the-Loop Mechanisms**: 
+- **Interactive Query Formulation**: 
+  - Users provide direct natural language input for each research query with full control over topic selection
+  - Real-time query refinement capability with suggested improvements based on classification confidence
+  - Query preview and confirmation before execution with estimated processing time and resource usage
+  - Ability to modify or cancel queries during execution with clear progress indicators
+
+- **Intelligent Result Review and Validation**: 
+  - All research outputs presented with confidence indicators and source attribution for independent verification
+  - Side-by-side comparison of multiple research approaches (RAG vs. web vs. math) when applicable
+  - Interactive citation exploration with direct links to source materials and relevance scoring
+  - User feedback integration for result quality assessment and system learning
+
+- **Selective Agent Control and Customization**: 
+  - Manual override of automatic query classification with explicit agent selection (force web/RAG/math research)
+  - Configurable research depth and breadth parameters with real-time cost and time estimates
+  - Custom agent weighting based on user preferences and domain expertise requirements
+  - Research workflow customization with saved presets for different research scenarios
+
+- **Output Verification and Quality Assurance**: 
+  - Comprehensive source attribution with clickable references and credibility assessment
+  - Factual consistency checking between multiple sources with highlighted discrepancies
+  - Mathematical solution step-by-step breakdown with intermediate result verification capabilities
+  - Export functionality for human review in external tools (Word, PDF, structured data formats)
+
+**Override and Intervention Procedures**: 
+- **Real-time Process Control**: 
+  - Immediate termination capability using standard terminal controls (Ctrl+C) with graceful shutdown procedures
+  - Progressive cancellation options (cancel current agent, cancel current task, cancel entire workflow)
+  - Emergency stop functionality that preserves partial results and system state for recovery
+  - Process suspension and resumption for long-running research tasks with state persistence
+
+- **System-level Intervention Capabilities**: 
+  - Complete system shutdown through command interface with automatic state saving
+  - Service restart procedures with configuration preservation and session recovery
+  - Manual API key rotation and re-authentication without system restart
+  - Database maintenance and optimization tools accessible through admin interface
+
+- **Configuration Override and Adaptation**: 
+  - Dynamic modification of agent configurations without system restart (temperature, tokens, timeout values)
+  - Real-time API endpoint switching for redundancy and performance optimization
+  - Custom prompt injection for specialized research domains with template management
+  - Resource limit adjustments based on system performance and user requirements
+
+- **Fallback and Recovery Operations**: 
+  - Manual routing bypass for query classification failures with expert-guided agent selection
+  - Direct database query interface for advanced users to access raw vector search results
+  - Offline mode activation for air-gapped environments with cached content and local processing
+  - Data export and import procedures for system migration and backup recovery scenarios
+
+**User Instructions and Training**: 
+- **Comprehensive Documentation Suite**: 
+  - Installation guide with environment-specific instructions (Windows/macOS/Linux variations)
+  - Step-by-step configuration tutorial with screenshots and common troubleshooting scenarios
+  - API setup documentation with security best practices and credential management guidelines
+  - Performance optimization guide with hardware recommendations and scaling strategies
+
+- **Interactive Learning Resources**: 
+  - Built-in tutorial mode with sample queries and expected outputs for hands-on learning
+  - Best practices guide for query formulation with examples across different research domains
+  - Video tutorials for complex configuration scenarios and advanced usage patterns
+  - Regular webinar sessions for user community knowledge sharing and system updates
+
+- **Operational Guidance and Support**: 
+  - Query optimization guidelines with performance tips and resource management recommendations
+  - Result interpretation framework with guidelines for assessing source credibility and relevance
+  - Error diagnosis and resolution procedures with common issue patterns and solutions
+  - Security and privacy guidelines for handling sensitive research topics and confidential information
+
+- **Advanced User Training**: 
+  - System administration training for IT support staff with detailed architecture documentation
+  - Custom agent development workshop for organizations requiring specialized research capabilities
+  - Integration training for embedding the system into existing research workflows and tools
+  - Compliance and audit training covering AI Act requirements and organizational policy alignment
+
+**Limitations and Constraints of the System**: 
+- **Technical and Infrastructure Dependencies**: 
+  - **Internet Connectivity**: Requires stable broadband connection (minimum 10 Mbps) for API access and web search functionality
+  - **API Service Dependencies**: System unavailable during Azure OpenAI or Serper API outages (historical uptime: 99.9% and 99.5% respectively)
+  - **Hardware Requirements**: Minimum 8GB RAM, 2GB free disk space, Windows 10/11 or equivalent for optimal performance
+  - **Python Environment**: Strict compatibility with Python 3.10-3.14, UV package manager dependency for installation and updates
+
+- **Functional and Scope Limitations**: 
+  - **Language Support**: Optimized for English language queries with limited multilingual capability (basic support for Spanish, French, German)
+  - **Real-time Data Constraints**: Cannot access information beyond Azure OpenAI training cutoff (April 2024) except through web search API
+  - **Document Format Restrictions**: RAG functionality supports text-based formats only (.txt, .md, .py, .json); PDF and image processing not currently supported
+  - **Mathematical Computation Scope**: Limited to problems expressible in natural language; cannot execute complex numerical simulations or symbolic computation
+
+- **Performance and Scaling Constraints**: 
+  - **Query Complexity**: Performance degrades significantly for queries requiring extensive context (>4000 tokens) or multi-step reasoning chains
+  - **Concurrent Usage**: Single-user system architecture; does not support multiple simultaneous users or sessions
+  - **Vector Database Scaling**: FAISS performance optimal up to 10,000 documents; larger corpora may require manual optimization or alternative indexing strategies
+  - **API Rate Limiting**: Subject to Azure OpenAI (60 RPM) and Serper (100 queries/hour) rate limits affecting throughput during intensive research sessions
+
+- **Content and Quality Limitations**: 
+  - **Information Accuracy**: Cannot guarantee factual accuracy of generated content; requires human verification of critical information
+  - **Bias and Perspective**: Subject to inherent biases in training data and web search results; may not represent diverse viewpoints adequately
+  - **Source Verification**: While citations are provided, users must independently verify source credibility and relevance for their specific use cases
+  - **Professional Advice Exclusion**: Explicitly not designed for medical diagnoses, legal counsel, financial advice, or other professional services requiring licensed expertiseInternal AI Academy Project)
 * [Application Architecture](CrewAI Flow-based Multi-Agent System)
 
 ## General Information 
@@ -20,6 +118,7 @@ EU AI Act <a href="https://artificialintelligenceact.eu/article/11/" style="colo
 <!-- info: this section covers the AI Act requirement of a description of the intended purpose, version and provider, relevant versions and updates. In Article 11, 2(d) a datasheet is required which describes all training methodologies and techniques as well as the characteristics of the training dataset, general description of the dataset, information about their provenance, scope and main characteristics, how the data was obtained and selected, labelling procedures conducted, and data cleaning methodologies deployed. -->
 <p></p>
 </div>
+
 
 **Purpose and Intended Use**:
     
@@ -35,6 +134,7 @@ EU AI Act <a href="https://artificialintelligenceact.eu/article/11/" style="colo
 * **Regulatory Constraints**: Complies with data protection requirements through local processing and secure Azure OpenAI integration.
 * **Prohibited Uses**: Not intended for generating harmful content, personal advice, medical diagnoses, or legal counsel.
 * **Operational Environment**: Runs locally on Windows systems with Python 3.10-3.14, requires Azure OpenAI API access, processes local documents through FAISS vector database.
+
 
 ## Risk classification
 
@@ -53,7 +153,7 @@ Minimal-risk systems, like spam filters or AI in video games, face no specific r
 
 * **Limited Risk** (in accordance with the AI Act)
 * **Reasoning**: This system falls under Limited Risk classification as it is a conversational AI system that interacts with users for research purposes. The system clearly discloses its AI nature through its interface and provides transparent information about its capabilities and limitations. It does not fall into High Risk categories as it is not used for critical infrastructure, law enforcement, education assessment, employment decisions, or healthcare diagnosis. The system is primarily used for research assistance and information gathering, which requires transparency obligations but not the full compliance requirements of High-Risk systems.
-
+   
 ## Application Functionality 
 
 <div style="color: gray">
@@ -61,6 +161,7 @@ EU AI Act <a href="https://artificialintelligenceact.eu/article/11/" style="colo
 <!-- Info: this section covers the delineation of the general purpose of the system required in Article 1, with a focus on defining what the system should do and how it should work.-->
 <p></p>
 </div>
+
 
 * **Instructions for use for deployers**: 
   - Install Python 3.10-3.14 and UV package manager
@@ -105,6 +206,9 @@ EU AI Act <a href="https://artificialintelligenceact.eu/article/11/" style="colo
   EU AI Act <a href="https://artificialintelligenceact.eu/article/11/" style="color:blue; text-decoration:underline">Article 11</a>; <a href="https://artificialintelligenceact.eu/annex/4/" style="color:blue; text-decoration:underline">Annex IV</a> paragraph 2 (d)
 <p></p>
 </div>
+
+<!--All information about models and datasets that are used in the application should be found in their respective dataset or model documentation.  The purpose here is mainly to provide links to those documentation. --> 
+<!--In Article 11, 2 (d) a datasheet is required which describes all training methodologies and techniques as well as the charatcteristics of the training dataset, general description of the dataset, information about their provenance, scope and main characteristics, how the data was obtained and selected labelling procedures conducted and data cleaning methodologies deployed -->
 
 ### Models
 
@@ -184,6 +288,31 @@ Link to all dataset documentation and information used to evaluate the AI/ML Sys
 
 * **User Information**: Currently deployed in AI Academy development environment for educational and research purposes
 
+## Integration with External Systems
+
+<div style="color:gray">
+  EU AI Act <a href="https://artificialintelligenceact.eu/article/11/" style="color:blue; text-decoration:underline">Article 11</a> ; <a href="https://artificialintelligenceact.eu/annex/4/" style="color:blue; text-decoration:underline">Annex IV</a> paragraph 1 (b, c, d, g, h), 2 (a)
+  <p></p>
+</div>
+
+* **Systems**:
+  * List dependencies 
+  * Data flow diagrams showing interactions.
+  * Error-handling mechanisms for APIs or webhooks
+
+## Deployment Plan
+
+* **Infrastructure**:
+  * List environments: development, staging, production.
+  * Resource scaling policies (e.g., autoscaling, redundancy).
+  * Backup and recovery processes.
+* **Integration Steps**:
+  * Order of deployment (e.g., database migrations, model upload, service launch).
+  * Dependencies like libraries, frameworks, or APIs.
+  * Rollback strategies for each component.
+* **User Information**: where is this under deployment?
+
+
 ## Lifecycle Management
 
 <div style="color:gray">
@@ -244,6 +373,7 @@ Link to all dataset documentation and information used to evaluate the AI/ML Sys
   <p></p>
 </div>
 <!--**Instructions:**  A thorough risk management system is mandated by the AI Act, especially for high-risk AI systems. This section documents the  proactive efforts to ensure the AI system operates safely and ethically. In general in this section you should document all the measures undertaken to make sure that a system operates safely on the market. Example: Consider a facial recognition system used for real-time law enforcement in public spaces. This is categorized as high-risk under the EU AI Act. If developers document the risk that the system might misidentify individuals—particularly among minority groups due to biased training data—they can plan for rigorous dataset audits, independent bias testing, and establish human oversight in decision-making. Without documenting this risk, the system might be deployed without safeguards, leading to wrongful detentions and legal liabilities. Systematic documentation ensures these issues are not only identified but addressed before harm occurs.-->
+
 
 **Risk Assessment Methodology**: NIST Risk Assessment Framework adapted for AI systems, focusing on technical risks, data privacy risks, and operational risks.
 
@@ -433,6 +563,7 @@ Link to all dataset documentation and information used to evaluate the AI/ML Sys
 - **Evaluation Metrics**: Continuous monitoring of classification accuracy and response quality
 - **Real-time Performance**: Logging and monitoring of system performance metrics
 
+  
 ### Accuracy throughout the lifecycle
 
 **Data Quality and Management**: 
@@ -476,6 +607,7 @@ Link to all dataset documentation and information used to evaluate the AI/ML Sys
 - **Confidence Indicators**: System indicates when no relevant information is found
 - **Error Reporting**: Clear error messages help users understand system limitations
     
+
 **Redundancy and Fail-Safes:**
     
 * Introduce fallback systems (e.g., rule-based or simpler models) to handle situations where the main AI system fails.
@@ -563,6 +695,8 @@ Link to all dataset documentation and information used to evaluate the AI/ML Sys
 
 These cybersecurity measures implement comprehensive threat modeling, data protection, adversarial robustness, secure development practices, access control, and incident response mechanisms aligned with industry standards and regulatory requirements. Post-deployment monitoring, patch management, and forensic logging ensure ongoing cybersecurity compliance with documented accountability and regulatory conformity.
 
+  
+
 ## Human Oversight 
 
 <div style="color:gray">
@@ -571,105 +705,17 @@ These cybersecurity measures implement comprehensive threat modeling, data prote
   <p></p>
 </div>
 
-**Human-in-the-Loop Mechanisms:**  
-- **Interactive Query Formulation**: 
-  - Users provide direct natural language input for each research query with full control over topic selection
-  - Real-time query refinement capability with suggested improvements based on classification confidence
-  - Query preview and confirmation before execution with estimated processing time and resource usage
-  - Ability to modify or cancel queries during execution with clear progress indicators
+<!-- info: AI Act Article 11, paragraph 2(e) requirements: assessment of the human oversight measures needed in accordance with Article 14, including the assessment of the technical measures needed to facilitate the integration of the outputs of the AI systems by deployers. -->
 
-- **Intelligent Result Review and Validation**: 
-  - All research outputs presented with confidence indicators and source attribution for independent verification
-  - Side-by-side comparison of multiple research approaches (RAG vs. web vs. math) when applicable
-  - Interactive citation exploration with direct links to source materials and relevance scoring
-  - User feedback integration for result quality assessment and system learning
 
-- **Selective Agent Control and Customization**: 
-  - Manual override of automatic query classification with explicit agent selection (force web/RAG/math research)
-  - Configurable research depth and breadth parameters with real-time cost and time estimates
-  - Custom agent weighting based on user preferences and domain expertise requirements
-  - Research workflow customization with saved presets for different research scenarios
+**Human-in-the-Loop Mechanisms:**  Explain how human judgment is incorporated into the AI system’s decision-making process, such as requiring human approval before action.
 
-- **Output Verification and Quality Assurance**: 
-  - Comprehensive source attribution with clickable references and credibility assessment
-  - Factual consistency checking between multiple sources with highlighted discrepancies
-  - Mathematical solution step-by-step breakdown with intermediate result verification capabilities
-  - Export functionality for human review in external tools (Word, PDF, structured data formats)
+**Override and Intervention Procedures:** Describe how users or operators can intervene or disable the AI system in case of errors or emergencies.
 
-**Override and Intervention Procedures:** 
-- **Real-time Process Control**: 
-  - Immediate termination capability using standard terminal controls (Ctrl+C) with graceful shutdown procedures
-  - Progressive cancellation options (cancel current agent, cancel current task, cancel entire workflow)
-  - Emergency stop functionality that preserves partial results and system state for recovery
-  - Process suspension and resumption for long-running research tasks with state persistence
+**User Instructions and Training:** Provide guidelines and training materials to help users understand how to operate the AI system safely and effectively.
 
-- **System-level Intervention Capabilities**: 
-  - Complete system shutdown through command interface with automatic state saving
-  - Service restart procedures with configuration preservation and session recovery
-  - Manual API key rotation and re-authentication without system restart
-  - Database maintenance and optimization tools accessible through admin interface
+**Limitations and Constraints of the System:** Clearly state what the AI system cannot do, including any known weaknesses or scenarios where performance may degrade.
 
-- **Configuration Override and Adaptation**: 
-  - Dynamic modification of agent configurations without system restart (temperature, tokens, timeout values)
-  - Real-time API endpoint switching for redundancy and performance optimization
-  - Custom prompt injection for specialized research domains with template management
-  - Resource limit adjustments based on system performance and user requirements
-
-- **Fallback and Recovery Operations**: 
-  - Manual routing bypass for query classification failures with expert-guided agent selection
-  - Direct database query interface for advanced users to access raw vector search results
-  - Offline mode activation for air-gapped environments with cached content and local processing
-  - Data export and import procedures for system migration and backup recovery scenarios
-
-**User Instructions and Training:** 
-- **Comprehensive Documentation Suite**: 
-  - Installation guide with environment-specific instructions (Windows/macOS/Linux variations)
-  - Step-by-step configuration tutorial with screenshots and common troubleshooting scenarios
-  - API setup documentation with security best practices and credential management guidelines
-  - Performance optimization guide with hardware recommendations and scaling strategies
-
-- **Interactive Learning Resources**: 
-  - Built-in tutorial mode with sample queries and expected outputs for hands-on learning
-  - Best practices guide for query formulation with examples across different research domains
-  - Video tutorials for complex configuration scenarios and advanced usage patterns
-  - Regular webinar sessions for user community knowledge sharing and system updates
-
-- **Operational Guidance and Support**: 
-  - Query optimization guidelines with performance tips and resource management recommendations
-  - Result interpretation framework with guidelines for assessing source credibility and relevance
-  - Error diagnosis and resolution procedures with common issue patterns and solutions
-  - Security and privacy guidelines for handling sensitive research topics and confidential information
-
-- **Advanced User Training**: 
-  - System administration training for IT support staff with detailed architecture documentation
-  - Custom agent development workshop for organizations requiring specialized research capabilities
-  - Integration training for embedding the system into existing research workflows and tools
-  - Compliance and audit training covering AI Act requirements and organizational policy alignment
-
-**Limitations and Constraints of the System:** 
-- **Technical and Infrastructure Dependencies**: 
-  - **Internet Connectivity**: Requires stable broadband connection (minimum 10 Mbps) for API access and web search functionality
-  - **API Service Dependencies**: System unavailable during Azure OpenAI or Serper API outages (historical uptime: 99.9% and 99.5% respectively)
-  - **Hardware Requirements**: Minimum 8GB RAM, 2GB free disk space, Windows 10/11 or equivalent for optimal performance
-  - **Python Environment**: Strict compatibility with Python 3.10-3.14, UV package manager dependency for installation and updates
-
-- **Functional and Scope Limitations**: 
-  - **Language Support**: Optimized for English language queries with limited multilingual capability (basic support for Spanish, French, German)
-  - **Real-time Data Constraints**: Cannot access information beyond Azure OpenAI training cutoff (April 2024) except through web search API
-  - **Document Format Restrictions**: RAG functionality supports text-based formats only (.txt, .md, .py, .json); PDF and image processing not currently supported
-  - **Mathematical Computation Scope**: Limited to problems expressible in natural language; cannot execute complex numerical simulations or symbolic computation
-
-- **Performance and Scaling Constraints**: 
-  - **Query Complexity**: Performance degrades significantly for queries requiring extensive context (>4000 tokens) or multi-step reasoning chains
-  - **Concurrent Usage**: Single-user system architecture; does not support multiple simultaneous users or sessions
-  - **Vector Database Scaling**: FAISS performance optimal up to 10,000 documents; larger corpora may require manual optimization or alternative indexing strategies
-  - **API Rate Limiting**: Subject to Azure OpenAI (60 RPM) and Serper (100 queries/hour) rate limits affecting throughput during intensive research sessions
-
-- **Content and Quality Limitations**: 
-  - **Information Accuracy**: Cannot guarantee factual accuracy of generated content; requires human verification of critical information
-  - **Bias and Perspective**: Subject to inherent biases in training data and web search results; may not represent diverse viewpoints adequately
-  - **Source Verification**: While citations are provided, users must independently verify source credibility and relevance for their specific use cases
-  - **Professional Advice Exclusion**: Explicitly not designed for medical diagnoses, legal counsel, financial advice, or other professional services requiring licensed expertise
 
 ## Incident Management
 
@@ -694,9 +740,11 @@ These cybersecurity measures implement comprehensive threat modeling, data prote
   - **Documentation**: Refer to CrewAI documentation and Azure OpenAI service documentation
   - **Community Support**: CrewAI GitHub repository for framework-specific issues
 
+
 ### Troubleshooting AI Application Deployment
 
 This section outlines potential issues that can arise during the deployment of an AI application, along with their causes, resolutions, and best practices for mitigation.
+
 
 #### Infrastructure-Level Issues
 
@@ -737,7 +785,8 @@ This section outlines potential issues that can arise during the deployment of a
   - **Documentation and Logging**: Detailed deployment logs with error categorization, step-by-step rollback procedures, environment setup validation checklists
   - Roll back to the last stable build.
   - Fix pipeline scripts and use containerisation for environment consistency.
-  - Enable verbose logging for error diagnostics.
+  - Enable verbose logging for error diagnostics.-->
+
 
 #### Integration Problems
 
@@ -746,17 +795,20 @@ This section outlines potential issues that can arise during the deployment of a
 * **Problem**: External APIs or internal services are unreachable due to network errors or authentication failures.
 
 * **Mitigation Strategy**:
+<!--:
   - Implement retries with exponential backoff.
   - Validate API keys or tokens and refresh as needed.
-  - Log and monitor API responses for debugging.
+  - Log and monitor API responses for debugging. -->
 
 ##### Data Format Mismatches
 
 * **Problem**: Crashes or errors due to unexpected data formats such as changes in the schema of external data sources or missing data validation steps.
 
 * **Mitigation Strategy**: 
+
+<!--
   - Use schema validation tools (e.g., JSON schema validators).
-  - Add versioning to APIs and validate inputs before processing.
+  - Add versioning to APIs and validate inputs before processing.-->
 
 #### Data Quality Problems
 
@@ -766,8 +818,11 @@ This section outlines potential issues that can arise during the deployment of a
   * Inconsistent labelling in training datasets.
 
 * **Mitigation Strategy**: 
+<!--
+- **Resolution**:
   - Automate data quality checks (e.g., Great Expectations framework).
-  - Regularly audit and clean production data.
+  - Regularly audit and clean production data.-->
+
 
 #### Model-Level Issues
 
@@ -776,8 +831,12 @@ This section outlines potential issues that can arise during the deployment of a
 * **Problem**: Incorrect or inconsistent results due to data drift or inadequate training data for the real world deployment domain. 
 
 * **Mitigation Strategy**:
+
+<!--
+- **Resolution**:
   - Monitoring for data drift and retraining of the model as needed.
-  - Regularly update the model.
+  - Regularly update the model -->
+
 
 #### Safety and Security Issues
 
@@ -790,18 +849,27 @@ This section outlines potential issues that can arise during the deployment of a
 * **Problem**: User or model data is compromised due to insecure storage or lack of monitoring and logging of data access. 
 
 * **Mitigation Strategy**: 
+<!--
+- **Resolution**:
   - Use secure storage services (e.g., AWS KMS).
   - Implement auditing for data access and alerts for unusual activity.
+  6.1. Delayed or Missing Data-->
+
 
 #### Monitoring and Logging Failures
 
 ##### Missing or Incomplete Logs
 
-* **Problem**: Lack of information to debug issues due to inefficient logging. Critical issues go unnoticed, or too many false positives occur by lack of implementation of actionable information in alerts. 
+* **Problem**: Lack of information to debug issues due to inefficient logging. Critical issues go unnoticed, or too many false positives occur by lack of implementation ofactionable information in alerts. 
 
 * **Mitigation Strategy**: 
-  - Fine-tune alerting thresholds and prioritize critical alerts.
-  - Use tools like Prometheus Alertmanager to manage and group alerts.
+
+
+<!--
+- **Resolution**:
+  - Fine-tune alerting thresholds and prioritise critical alerts.
+  - Use tools like Prometheus Alertmanager to manage and group alerts. -->
+
 
 #### Recovery and Rollback
 
@@ -810,16 +878,22 @@ This section outlines potential issues that can arise during the deployment of a
 * **Problem**: New deployment introduces critical errors.
 
 * **Mitigation Strategy**: 
+
+<!--
+- **Resolution**:
   - Use blue-green or canary deployments to minimise impact.
-  - Maintain backups of previous versions and configurations.
+  - Maintain backups of previous versions and configurations. -->
 
 ##### Disaster Recovery
 
 * **Problem**: Complete system outage or data loss.
 
 * **Mitigation Strategy**:
+
+<!--
+- **Resolution**:
   - Test and document disaster recovery plans.
-  - Use automated backups and verify restore procedures.
+  - Use automated backups and verify restore procedures.-->
 
 ### EU Declaration of conformity 
 
@@ -828,7 +902,10 @@ This section outlines potential issues that can arise during the deployment of a
   <p></p>
 </div>
 
-[Information not available - Declaration of conformity and certifications not provided. If/when the system is to be placed on the European market as a product or service subject to conformity assessment, this section must be completed with the required content, including provider information, regulatory references, and signatures.]
+<!-- when applicable and certifications are available: it requires a systems name as well as the name and address of the provider; a statement that the EU declaration of conformity referred to in Article 47 is issued under the sole responsibility of the provider; a statement that the AI system is in conformity with this Regulation and, if applicable, with any other relevant Union law that provides for the issuing of the EU declaration of conformity referred to in Article 47, Where an AI system involves the processing of personal data;  a statement that that AI system complies with Regulations (EU) 2016/679 and (EU) 2018/1725 and Directive (EU) 2016/680, reference to the harmonised standards used or any other common specification in relation to which
+conformity is declared; the name and identification number of the notified body, a description of the conformity
+assessment procedure performed, and identification of the certificate issued; the place and date of issue of the declaration, the name and function of the person who signed it, as well as an
+indication for, or on behalf of whom, that person signed, a signature.-->
 
 ### Standards applied
 
@@ -863,7 +940,3 @@ This section outlines potential issues that can arise during the deployment of a
 * **AI Academy Team, EY:** (Owner) - System development and implementation
 * **GitHub Copilot Assistant:** (Contributor) - Documentation completion and AI Act compliance mapping
 * **Technical Review Team, EY:** (Manager) - Technical validation and compliance oversight
-
----
-
-*This document has been filled out using the best-available information from both RAG findings and user contributions. Where no concrete information was provided, [Information not available] is shown to prompt further documentation work as required. The structure and EU AI Act compliance requirements have been strictly adhered to as per the template.*

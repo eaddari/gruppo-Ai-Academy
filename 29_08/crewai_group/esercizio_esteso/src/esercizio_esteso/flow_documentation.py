@@ -1,4 +1,48 @@
 #!/usr/bin/env python
+"""
+Documentation Generation Flow for CrewAI Multi-Agent System.
+
+This module implements a comprehensive documentation generation workflow that
+uses Retrieval-Augmented Generation (RAG) and specialized AI crews to create
+structured technical documentation. The flow coordinates multiple agents to
+research, analyze, and synthesize information into professional documentation.
+
+The workflow includes:
+- Automated RAG research to gather system information
+- Template-based section identification and content generation
+- Multi-agent collaboration for comprehensive documentation
+- Quality assurance and final report compilation
+
+Classes
+-------
+DocumentationFlowState : BaseModel
+    Pydantic model for managing flow state and data persistence.
+DocumentationFlow : Flow
+    Main flow class that orchestrates the documentation generation process.
+
+Functions
+---------
+kickoff : callable
+    Entry point function to start the documentation generation flow.
+plot : callable
+    Function to generate visual representation of the flow structure.
+
+Examples
+--------
+Run the documentation flow:
+    >>> from flow_documentation import kickoff
+    >>> result = kickoff()
+
+Generate flow visualization:
+    >>> from flow_documentation import plot
+    >>> plot()
+
+Notes
+-----
+The flow uses Azure OpenAI models and requires proper configuration of
+environment variables for API access. The RAG system depends on a
+pre-indexed knowledge base with relevant system documentation.
+"""
 import os
 from datetime import datetime
 from pydantic import BaseModel
@@ -8,7 +52,38 @@ from src.esercizio_esteso.crews.docgen.crew import Docgen
 
 
 class DocumentationFlowState(BaseModel):
-    """State management for the Documentation flow"""
+    """
+    State management for the Documentation flow.
+    
+    This Pydantic model manages the persistent state throughout the
+    documentation generation workflow, tracking research findings,
+    template sections, and intermediate results.
+    
+    Attributes
+    ----------
+    topic : str, default=""
+        The main topic or focus area for documentation generation.
+    rag_findings : str, default=""
+        Raw findings and information extracted from the RAG research phase.
+    template_sections : list, default=[]
+        List of documentation template sections to be populated.
+    section_responses : dict, default={}
+        Dictionary mapping section identifiers to generated content.
+    final_report : str, default=""
+        The complete generated documentation as a formatted string.
+        
+    Examples
+    --------
+    >>> state = DocumentationFlowState()
+    >>> state.topic = "API Documentation"
+    >>> state.rag_findings = "Comprehensive API details..."
+    
+    Notes
+    -----
+    This model ensures type safety and data validation throughout the
+    flow execution process, providing a structured way to manage the
+    evolving documentation content.
+    """
     
     topic: str = ""
     rag_findings: str = ""
@@ -18,10 +93,74 @@ class DocumentationFlowState(BaseModel):
 
 
 class DocumentationFlow(Flow[DocumentationFlowState]):
+    """
+    Main flow class for orchestrating documentation generation.
+    
+    This class implements a CrewAI Flow that coordinates multiple AI agents
+    and crews to generate comprehensive technical documentation. The flow
+    follows a structured pipeline from research through synthesis to final
+    report generation.
+    
+    The workflow includes the following stages:
+    1. User input collection and topic definition
+    2. RAG-based research to gather relevant information
+    3. Template section identification and structure planning
+    4. Content generation for each documentation section
+    5. Final report compilation and formatting
+    
+    Attributes
+    ----------
+    state : DocumentationFlowState
+        The persistent state object that tracks progress and data
+        throughout the documentation generation process.
+        
+    Methods
+    -------
+    collect_user_input()
+        Entry point for the flow that sets up automatic documentation generation.
+    execute_rag_research()
+        Performs comprehensive RAG research to gather system information.
+    identify_template_sections()
+        Parses templates to identify sections requiring content generation.
+    generate_section_content()
+        Creates content for each identified documentation section.
+    compile_final_report()
+        Assembles all sections into a cohesive final document.
+        
+    Examples
+    --------
+    >>> flow = DocumentationFlow()
+    >>> result = flow.kickoff()
+    
+    Notes
+    -----
+    The flow uses the @start and @listen decorators to define the execution
+    sequence and dependencies between different stages. Each method returns
+    a string identifier that triggers the next stage in the pipeline.
+    """
+    
     @start()
     def collect_user_input(self):
         """
-        Entry point: Set up automatic documentation generation from RAG
+        Entry point: Set up automatic documentation generation from RAG.
+        
+        Initializes the documentation generation process by setting a
+        comprehensive topic that will guide the RAG research phase.
+        This method establishes the scope and focus for the entire
+        documentation workflow.
+        
+        Returns
+        -------
+        str
+            Status identifier "user_input_collected" to trigger the next
+            stage in the flow pipeline.
+            
+        Notes
+        -----
+        The topic is set to capture comprehensive system information
+        including architecture, implementation details, and usage
+        instructions. This broad scope ensures thorough documentation
+        coverage.
         """
         print("\n=== RAG Documentation Flow ===\n")
         
@@ -35,9 +174,42 @@ class DocumentationFlow(Flow[DocumentationFlowState]):
     @listen(collect_user_input)
     def execute_rag_research(self):
         """
-        Execute comprehensive RAG research to gather all available information
+        Execute comprehensive RAG research to gather all available information.
+        
+        Performs Retrieval-Augmented Generation research using the webrag crew
+        to extract comprehensive information from the local knowledge base.
+        The research covers system architecture, technical implementation,
+        available components, and usage instructions.
+        
+        Returns
+        -------
+        str
+            Status identifier "rag_completed" to trigger the next stage
+            in the flow pipeline.
+            
+        Raises
+        ------
+        Exception
+            If RAG research fails, the error is logged and a default
+            message is used to continue the flow execution.
+            
+        Notes
+        -----
+        The method uses a comprehensive query designed to extract all
+        relevant system information from the RAG knowledge base. Error
+        handling ensures the flow continues even if RAG research fails.
         """
         print("🔍 Executing comprehensive RAG research to gather all system information...")
+        
+        # Ensure FAISS index exists
+        try:
+            from src.esercizio_esteso.crews.rag.faiss_rag import SETTINGS, get_embeddings, corpus, load_or_build_vectorstore
+            from pathlib import Path
+            if not (Path(SETTINGS.persist_dir) / "index.faiss").exists():
+                print("📚 Building FAISS index...")
+                load_or_build_vectorstore(SETTINGS, get_embeddings(SETTINGS), corpus())
+        except Exception as e:
+            print(f"⚠️ FAISS setup failed: {e}")
         
         try:
             webrag_crew = Webrag()
@@ -71,7 +243,25 @@ class DocumentationFlow(Flow[DocumentationFlowState]):
     @listen(execute_rag_research)
     def identify_template_sections(self):
         """
-        Parse the template to identify all sections that need information
+        Parse the template to identify all sections that need information.
+        
+        Analyzes the documentation template structure to identify all
+        sections that require content generation. Creates a structured
+        list of sections with descriptions and specific questions to
+        guide the content generation process.
+        
+        Returns
+        -------
+        str
+            Status identifier "template_parsed" to trigger the next stage
+            in the flow pipeline.
+            
+        Notes
+        -----
+        The template sections include standard documentation components
+        such as application information, key links, architecture details,
+        security considerations, and operational procedures. Each section
+        includes specific questions to guide content generation.
         """
         print("📋 Identifying template sections...")
         
@@ -183,7 +373,7 @@ class DocumentationFlow(Flow[DocumentationFlowState]):
                     azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"), # type: ignore
                     api_key=os.getenv("AZURE_OPENAI_API_KEY"),
                     api_version=os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-01"),
-                    azure_deployment=os.getenv("MODEL", "gpt-4"),
+                    azure_deployment=os.getenv("MODEL", "gpt-4.1"),
                 )
                 
                 rag_check_prompt = f"""
@@ -198,7 +388,7 @@ class DocumentationFlow(Flow[DocumentationFlowState]):
                 """
                 
                 response = llm.chat.completions.create(
-                    model=os.getenv("MODEL", "gpt-4"),
+                    model=os.getenv("MODEL", "gpt-4.1"),
                     messages=[
                         {"role": "system", "content": "Extract relevant information for the specified section."},
                         {"role": "user", "content": rag_check_prompt}
@@ -249,8 +439,8 @@ class DocumentationFlow(Flow[DocumentationFlowState]):
         """
         print("📝 Generating documentation by filling out EU AI Act template...")
         
-        # Load template structure from docs/template.md
-        template_path = "docs/template.md"
+        # Load template structure from template.md
+        template_path = "template.md"
         template_structure = ""
         if os.path.exists(template_path):
             with open(template_path, 'r', encoding='utf-8') as f:
@@ -321,7 +511,32 @@ class DocumentationFlow(Flow[DocumentationFlowState]):
 
 
 def kickoff():
-    """Run the Documentation flow"""
+    """
+    Execute the Documentation flow and generate comprehensive documentation.
+    
+    Initializes and runs the complete documentation generation workflow,
+    coordinating multiple AI agents to create structured technical
+    documentation based on RAG research and template-driven content
+    generation.
+    
+    Returns
+    -------
+    Any
+        The result object from the flow execution, containing the
+        generated documentation and metadata about the process.
+        
+    Notes
+    -----
+    The function creates a new DocumentationFlow instance and executes
+    the complete workflow pipeline. The final documentation is saved
+    to 'output/research_report.md' and status information is printed
+    to the console.
+    
+    Examples
+    --------
+    >>> result = kickoff()
+    >>> print("Documentation generated successfully")
+    """
     flow = DocumentationFlow()
     result = flow.kickoff()
     
@@ -334,7 +549,24 @@ def kickoff():
 
 
 def plot():
-    """Generate a visualization of the flow"""
+    """
+    Generate a visualization of the documentation flow structure.
+    
+    Creates a visual representation of the DocumentationFlow showing
+    the relationships between different stages, agents, and tasks in
+    the documentation generation workflow.
+    
+    Notes
+    -----
+    The visualization is saved as an HTML file named
+    'documentation_flow.html' in the current directory. This helps
+    in understanding the flow structure and debugging the workflow.
+    
+    Examples
+    --------
+    >>> plot()
+    >>> print("Flow visualization created")
+    """
     flow = DocumentationFlow()
     flow.plot("documentation_flow")
     print("Flow visualization saved to documentation_flow.html")

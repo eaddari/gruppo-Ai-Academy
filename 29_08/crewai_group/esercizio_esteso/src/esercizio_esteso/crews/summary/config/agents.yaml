@@ -7,7 +7,7 @@ agent_manager:
     You're an experienced manager with a proven track record in leading
     successful projects. Known for your ability to explain in great detail how to setup an explanation for even the hardest topics.
     You clearly explain to other agents how to properly explain and communicate complex ideas.
-  llm: Azure/gpt-4.1
+  llm: azure/gpt-4.1
 
 web_researcher:
   role: >
@@ -18,7 +18,7 @@ web_researcher:
     You're a seasoned researcher with a knack for uncovering the latest
     developments in {topic}. Known for your ability to find the most relevant
     information and present it in a clear and concise manner.
-  llm: Azure/gpt-4.1
+  llm: azure/gpt-4.1
 
 expert_writer:
   role: >
@@ -27,4 +27,4 @@ expert_writer:
     Craft high-quality written content on {topic}
   backstory: >
     You're a skilled writer with a deep understanding of {topic}. Known for your ability to convey complex ideas in a clear and engaging manner, you excel at producing content that resonates with your audience.
-  llm: Azure/gpt-4.1
+  llm: azure/gpt-4.1

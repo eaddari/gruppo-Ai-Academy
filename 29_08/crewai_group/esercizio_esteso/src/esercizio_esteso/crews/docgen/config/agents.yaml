@@ -9,4 +9,4 @@ generation_agent:
     template structures while filling them with accurate, relevant technical content. You understand 
     the importance of maintaining formatting, section headers, and compliance requirements precisely 
     as specified in templates.
-  llm: Azure/gpt-4.1
+  llm: azure/gpt-4.1

@@ -1,4 +1,53 @@
 #!/usr/bin/env python
+"""
+Generic Multi-Agent Research Flow for CrewAI System.
+
+This module implements a comprehensive research workflow that intelligently
+routes different types of queries to specialized crews. The flow coordinates
+RAG research, web research, mathematical problem solving, and synthesis to
+provide comprehensive analysis and reporting.
+
+The workflow includes:
+- Intelligent query classification and routing
+- Specialized crew execution based on query type
+- Multi-source research coordination
+- Comprehensive synthesis and reporting
+
+Classes
+-------
+RouterOutput : BaseModel
+    Pydantic model for routing decisions between different research methods.
+ResearchPlan : BaseModel
+    Structured plan for coordinating multi-faceted research workflows.
+ResearchResults : BaseModel
+    Container for results from different research methods and synthesis.
+GenericFlowState : BaseModel
+    State management for the complete generic research workflow.
+GenericFlow : Flow
+    Main flow class orchestrating the multi-agent research process.
+
+Functions
+---------
+kickoff : callable
+    Entry point function to start the generic research flow.
+plot : callable
+    Function to generate visual representation of the flow structure.
+
+Examples
+--------
+Run the research flow:
+    >>> from flow_copy import kickoff
+    >>> result = kickoff()
+
+Generate flow visualization:
+    >>> from flow_copy import plot
+    >>> plot()
+
+Notes
+-----
+The flow uses Azure OpenAI for intelligent routing and synthesis, and
+coordinates multiple specialized crews for comprehensive research coverage.
+"""
 import json
 import os
 from typing import List, Literal
@@ -12,7 +61,27 @@ from crews.summary.crew import ExplanationCrew
 
 
 class RouterOutput(BaseModel):
-    """Output model for the router decision"""
+    """
+    Output model for intelligent routing decisions.
+    
+    This model defines the possible routing paths for different types
+    of research queries, enabling the flow to direct queries to the
+    most appropriate specialized crew.
+    
+    Attributes
+    ----------
+    route : Literal
+        The routing decision indicating which research method to use:
+        - "research": General research queries
+        - "summarization": Content summarization requests  
+        - "math": Mathematical problems and calculations
+        - "image_generation": Visual content creation requests
+        
+    Examples
+    --------
+    >>> router_output = RouterOutput(route="math")
+    >>> print(router_output.route)
+    """
 
     route: Literal["reseacrh", "summarization", "math", "image_generation"] = Field(
         description="Decided method for router"
@@ -21,7 +90,39 @@ class RouterOutput(BaseModel):
 
 # Define our models for structured data
 class ResearchPlan(BaseModel):
-    """Structured plan for research workflow"""
+    """
+    Structured plan for coordinating research workflows.
+    
+    This model defines the comprehensive research strategy including
+    different research focuses, key questions, and target audience
+    considerations for multi-faceted research operations.
+    
+    Attributes
+    ----------
+    topic : str
+        The main research topic or user input to be investigated.
+    rag_focus : str
+        Specific focus area for RAG-based document research.
+    web_focus : str
+        Specific focus area for web-based research activities.
+    math_focus : str
+        Specific focus area for mathematical problem solving.
+    research_questions : List[str]
+        Key research questions that need to be addressed.
+    target_audience : str
+        Intended audience for the research report and findings.
+        
+    Examples
+    --------
+    >>> plan = ResearchPlan(
+    ...     topic="Machine Learning Applications",
+    ...     rag_focus="Technical implementation details",
+    ...     web_focus="Latest developments and trends",
+    ...     math_focus="Algorithm performance metrics",
+    ...     research_questions=["What are the key algorithms?"],
+    ...     target_audience="Technical developers"
+    ... )
+    """
 
     topic: str = Field(description="Main user input")
     rag_focus: str = Field(description="Specific focus for RAG research")
@@ -32,7 +133,32 @@ class ResearchPlan(BaseModel):
 
 
 class ResearchResults(BaseModel):
-    """Results from research phase"""
+    """
+    Results container for multi-source research findings.
+    
+    This model aggregates results from different research methods
+    including RAG research, web research, mathematical analysis,
+    and provides combined insights and metadata.
+    
+    Attributes
+    ----------
+    rag_findings : str, default=""
+        Results and insights from RAG-based document research.
+    web_findings : str, default=""
+        Results and insights from web-based research activities.
+    math_findings : str, default=""
+        Results and solutions from mathematical problem solving.
+    combined_insights : str, default=""
+        Synthesized insights combining all research findings.
+    research_method : str, default=""
+        Primary research method used for the investigation.
+        
+    Examples
+    --------
+    >>> results = ResearchResults()
+    >>> results.rag_findings = "Technical documentation analysis..."
+    >>> results.research_method = "RAG"
+    """
 
     rag_findings: str = ""
     web_findings: str = ""
@@ -43,7 +169,39 @@ class ResearchResults(BaseModel):
 
 # Define our flow state
 class GenericFlowState(BaseModel):
-    """State management for the Generic flow"""
+    """
+    State management for the complete generic research workflow.
+    
+    This model maintains the persistent state throughout the research
+    flow execution, tracking user input, research plans, results,
+    and orchestration decisions.
+    
+    Attributes
+    ----------
+    topic : str, default=""
+        The main research topic provided by the user.
+    current_year : str, default=""
+        Current year for contextualizing research findings.
+    research_plan : ResearchPlan, optional
+        Structured research plan with focuses and questions.
+    research_results : ResearchResults
+        Container for all research findings and synthesis.
+    orchestrator_decision : str, default=""
+        Routing decision made by the orchestrator logic.
+    final_report_structure : str, default=""
+        Structure and organization of the final report.
+        
+    Examples
+    --------
+    >>> state = GenericFlowState()
+    >>> state.topic = "Artificial Intelligence in Healthcare"
+    >>> state.current_year = "2025"
+    
+    Notes
+    -----
+    This state model ensures data persistence and consistency
+    throughout the multi-stage research workflow execution.
+    """
 
     topic: str = ""
     current_year: str = ""
@@ -57,8 +215,77 @@ class GenericFlowState(BaseModel):
 
 
 class GenericFlow(Flow[GenericFlowState]):
+    """
+    Main flow class for orchestrating multi-agent research processes.
+    
+    This class implements a comprehensive research workflow that intelligently
+    routes queries to specialized crews, coordinates multiple research methods,
+    and synthesizes findings into comprehensive reports.
+    
+    The flow includes:
+    1. User input collection and preprocessing
+    2. Research plan creation and strategy development
+    3. Intelligent routing to appropriate research methods
+    4. Parallel or sequential execution of specialized crews
+    5. Synthesis and final report generation
+    
+    Attributes
+    ----------
+    state : GenericFlowState
+        The persistent state object tracking all workflow data
+        and intermediate results throughout execution.
+        
+    Methods
+    -------
+    collect_user_input()
+        Entry point for collecting and processing user research requests.
+    create_research_plan()
+        Develops structured research strategy and planning.
+    orchestrate_research()
+        Intelligently routes queries to appropriate research methods.
+    route_research()
+        Implements routing logic for different research paths.
+    execute_rag_research()
+        Executes RAG-based document research.
+    execute_web_research()
+        Executes web-based research activities.
+    execute_math_problem()
+        Executes mathematical problem solving.
+    synthesize_and_report()
+        Synthesizes findings and generates final reports.
+        
+    Examples
+    --------
+    >>> flow = GenericFlow()
+    >>> result = flow.kickoff()
+    
+    Notes
+    -----
+    The flow uses CrewAI decorators (@start, @listen, @router) to define
+    execution sequence and dependencies. Azure OpenAI is used for
+    intelligent classification and routing decisions.
+    """
+    
     @start()
     def collect_user_input(self):
+        """
+        Entry point: Collect and process user research input.
+        
+        Gathers user input about the research topic and initializes
+        the workflow state with basic information needed for research
+        planning and execution.
+        
+        Returns
+        -------
+        str
+            Status identifier "user_input_collected" to trigger the
+            next stage in the research workflow.
+            
+        Notes
+        -----
+        This method sets up the basic research context including
+        the topic and current year for temporal context. The input
+        can be customized or made interactive as needed.
         """
         Entry point: Collect user input about research topic
         """
@@ -78,7 +305,7 @@ class GenericFlow(Flow[GenericFlowState]):
         # print(f"User input: {user_input}")
 
         llm = LLM(
-            model="azure/gpt-4.1-nano",
+            model="azure/gpt-4.1",
             temperature=0,
             response_format=RouterOutput,
         )
@@ -122,10 +349,10 @@ class GenericFlow(Flow[GenericFlowState]):
             azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
             api_key=os.getenv("AZURE_OPENAI_API_KEY"),
             api_version=os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-01"),
-            azure_deployment=os.getenv("MODEL", "gpt-4"),
+            azure_deployment=os.getenv("MODEL", "gpt-4.1"),
         )
         chat = llm.chat.completions.create(
-            model=os.getenv("MODEL", "gpt-4"),
+            model=os.getenv("MODEL", "gpt-4.1"),
             messages=[
                 {
                     "role": "system",
@@ -146,10 +373,10 @@ class GenericFlow(Flow[GenericFlowState]):
                 azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
                 api_key=os.getenv("AZURE_OPENAI_API_KEY"),
                 api_version=os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-01"),
-                azure_deployment=os.getenv("MODEL", "gpt-4"),
+                azure_deployment=os.getenv("MODEL", "gpt-4.1"),
             )
             chat = llm.chat.completions.create(
-                model=os.getenv("MODEL", "gpt-4"),
+                model=os.getenv("MODEL", "gpt-4.1"),
                 messages=[
                     {
                         "role": "system",
@@ -316,7 +543,31 @@ class GenericFlow(Flow[GenericFlowState]):
 
 
 def kickoff():
-    """Run the Generic research flow"""
+    """
+    Execute the Generic research flow and coordinate multi-agent research.
+    
+    Initializes and runs the complete generic research workflow, which
+    intelligently routes queries to specialized crews and synthesizes
+    comprehensive research findings.
+    
+    Returns
+    -------
+    Any
+        The result object from the flow execution, containing research
+        findings, analysis, and generated reports.
+        
+    Notes
+    -----
+    The function creates multiple output files:
+    - research_plan.json: Initial research strategy and planning
+    - research_report.md: Final comprehensive research report
+    - research_summary.json: Complete research summary and metadata
+    
+    Examples
+    --------
+    >>> result = kickoff()
+    >>> print("Research flow completed successfully")
+    """
     flow = GenericFlow()
     result = flow.kickoff()
 

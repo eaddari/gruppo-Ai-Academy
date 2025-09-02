@@ -79,7 +79,7 @@ def llm():
         azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
         api_key=os.getenv("AZURE_OPENAI_API_KEY"),
         api_version=os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-01"),
-        azure_deployment=os.getenv("MODEL"),
+        azure_deployment=os.getenv("MODEL", "gpt-4.1"),
         temperature=0.1
     )
 
@@ -109,20 +109,44 @@ def extract_sphinx_docs(html_dir):
 
 def corpus() -> List[Document]:
     """
-    Crea un piccolo corpus di documenti in inglese con metadati e 'source' per citazioni.
+    Crea un corpus di documenti del progetto con metadati e 'source' per citazioni.
     """
-    docs_path = Path(__file__).parent / "docs"
     documents = []
     
-    # Load existing markdown docs
-    for doc_path in docs_path.glob("*.md"):
+    # Get project root
+    project_root = Path(__file__).parent.parent.parent.parent.parent
+    
+    # Load template.md from project root
+    template_path = project_root / "template.md"
+    if template_path.exists():
+        with open(template_path, "r", encoding="utf-8") as f:
+            content = f.read()
+            documents.append(Document(page_content=content, metadata={"source": "template.md"}))
+    
+    # Load README.md from project root
+    readme_path = project_root / "README.md"
+    if readme_path.exists():
+        with open(readme_path, "r", encoding="utf-8") as f:
+            content = f.read()
+            documents.append(Document(page_content=content, metadata={"source": "README.md"}))
+    
+    # Load docs from main docs folder
+    docs_path = project_root / "docs"
+    if docs_path.exists():
+        for doc_path in docs_path.glob("*.md"):
+            with open(doc_path, "r", encoding="utf-8") as f:
+                content = f.read()
+                documents.append(Document(page_content=content, metadata={"source": f"docs/{doc_path.name}"}))
+    
+    # Load existing rag docs (minecraft examples)
+    rag_docs_path = Path(__file__).parent / "docs"
+    for doc_path in rag_docs_path.glob("*.md"):
         with open(doc_path, "r", encoding="utf-8") as f:
             content = f.read()
-            documents.append(Document(page_content=content, metadata={"source": doc_path.name}))
+            documents.append(Document(page_content=content, metadata={"source": f"rag/{doc_path.name}"}))
     
-    # Add Sphinx documentation
-    project_root = Path(__file__).parent.parent.parent.parent.parent
-    sphinx_html_dir = project_root / "docs" / "build" / "html"
+    # Add Sphinx documentation if available
+    sphinx_html_dir = project_root / "docs" / "_build" / "html"
     if sphinx_html_dir.exists():
         sphinx_docs = extract_sphinx_docs(sphinx_html_dir)
         for doc in sphinx_docs:
@@ -143,7 +167,7 @@ def split_documents(docs: List[Document], settings: Settings) -> List[Document]:
         separators=[
             "\n\n", "\n", ". ", "? ", "! ", "; ", ": ",
             ", ", " ", ""
-        ],
+        ]
     )
     return splitter.split_documents(docs)
 

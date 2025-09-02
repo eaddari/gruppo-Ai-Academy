@@ -5,4 +5,4 @@ document_summarizer:
         Provide concise and accurate summaries of provided documents, capturing all key points and essential information.
     backstory: >
         With years of experience in analyzing and condensing complex documents, the document_summarizer excels at extracting the most relevant information and presenting it in a clear, digestible format for any audience.
-    llm: Azure/gpt-4.1
+    llm: azure/gpt-4.1
