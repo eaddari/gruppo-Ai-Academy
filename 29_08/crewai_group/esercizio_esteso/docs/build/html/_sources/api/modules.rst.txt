@@ -1,7 +1,0 @@
-esercizio_esteso
-================
-
-.. toctree::
-   :maxdepth: 4
-
-   esercizio_esteso
