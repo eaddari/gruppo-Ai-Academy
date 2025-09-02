@@ -1,6 +1,7 @@
 import os
 
 from langchain_community.document_loaders import PyPDFDirectoryLoader
+from langchain_community.document_loaders import DirectoryLoader
 from langchain_core.documents.base import Document
 
 from langchain_core.embeddings import Embeddings
@@ -19,8 +20,8 @@ def create_collection(embedding: Embeddings, documents: list[Document]):
 
     client = QdrantClient(url=qdrant_url)
 
-    if client.collection_exists(collection_name="board_games"):
-        _ = client.delete_collection(collection_name="board_games")
+    if client.collection_exists(collection_name="minecraft_kb"):
+        _ = client.delete_collection(collection_name="minecraft_kb")
 
     client.close()
 
@@ -53,11 +54,11 @@ def get_embedding_model() -> AzureOpenAIEmbeddings:
     return embeddings
 
 
-DOCUMENTS_PATH = os.path.join(os.path.dirname(__file__), "documents")
+DOCUMENTS_PATH = os.path.join(os.path.dirname(__file__), "docs")
 
 
-def load_pdf_from_folder() -> list[Document]:
-    loader = PyPDFDirectoryLoader(DOCUMENTS_PATH)
+def load_markdown_from_folder() -> list[Document]:
+    loader = DirectoryLoader(DOCUMENTS_PATH, glob='**/*.md')
     documents = loader.load()
 
     return documents
@@ -76,7 +77,7 @@ def split_docs(documents: list[Document]) -> list[Document]:
 
 
 def main():
-    documents = load_pdf_from_folder()
+    documents = load_markdown_from_folder()
     docs = split_docs(documents)
 
     embedding = get_embedding_model()
