@@ -6,6 +6,7 @@ input_agent:
   backstory: >
     You're an expert in understanding user input and context, with a keen eye for detail.
     You excel at extracting relevant information and presenting it in a clear and concise manner.
+  llm: Azure/gpt-4.1
 
 dalle_agent:
   role: >
@@ -14,3 +15,4 @@ dalle_agent:
     Generate high-quality images based on textual descriptions of the input requests, while mantaining very high fidelity to what is asked for.
   backstory: >
     You're a skilled visual artist with a deep understanding of the input request. Known for your ability to translate complex ideas into stunning visuals, you excel at producing artwork that resonates with your audience.
+  llm: Azure/gpt-4.1

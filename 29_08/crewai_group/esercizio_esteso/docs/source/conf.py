@@ -29,6 +29,8 @@ extensions = [
 
 templates_path = ['_templates']
 exclude_patterns = []
+autodoc_typehints = "both"
+autodoc_docstring_signature = True
 
 # Support both .rst and .md (via MyST) sources
 source_suffix = {

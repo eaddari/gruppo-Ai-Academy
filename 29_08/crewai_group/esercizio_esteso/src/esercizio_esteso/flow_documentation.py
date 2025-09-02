@@ -58,7 +58,7 @@ class DocumentationFlow(Flow[DocumentationFlowState]):
                 context={
                     "topic": comprehensive_query,
                     "current_year": str(datetime.now().year),
-                },
+                }, # type: ignore
             )
             self.state.rag_findings = str(rag_result)
         except Exception as e:
@@ -180,7 +180,7 @@ class DocumentationFlow(Flow[DocumentationFlowState]):
                 from openai import AzureOpenAI
                 
                 llm = AzureOpenAI(
-                    azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
+                    azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"), # type: ignore
                     api_key=os.getenv("AZURE_OPENAI_API_KEY"),
                     api_version=os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-01"),
                     azure_deployment=os.getenv("MODEL", "gpt-4"),
@@ -304,7 +304,7 @@ class DocumentationFlow(Flow[DocumentationFlowState]):
                     5. Replace placeholders with concrete information
                     6. If information is still missing after combining both sources, clearly mark those sections as '[Information not available]'
                     7. Ensure EU AI Act compliance requirements are properly addressed""",
-                },
+                }, # type: ignore
             )
         )
         

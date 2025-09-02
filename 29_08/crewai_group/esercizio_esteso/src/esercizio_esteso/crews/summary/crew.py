@@ -4,25 +4,11 @@ from crewai.agents.agent_builder.base_agent import BaseAgent
 from typing import List
 from crewai_tools import SerperDevTool
 from tools.custom_tool import LocalRag
-import os
 import ssl
 
 ssl_context = ssl.create_default_context()
 ssl_context.check_hostname = False
 ssl_context.verify_mode = ssl.CERT_NONE
-
-from crewai.llm import LLM
-
-crew_llm = LLM(
-    model=f"azure/{os.getenv('MODEL', 'gpt-4')}",
-    api_key=os.getenv("AZURE_OPENAI_API_KEY"),
-    base_url=os.getenv("AZURE_OPENAI_ENDPOINT"),
-    api_version=os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-01"),
-    temperature=0.1)
-
-web_search_tool = SerperDevTool()
-
-local_rag_tool = LocalRag()
 
 @CrewBase
 class ExplanationCrew():
@@ -37,40 +23,41 @@ class ExplanationCrew():
         Manages the agent's tasks and responsibilities by deciding how to write the explanation of the topic.
         """
         return Agent(
-            config=self.agents_config['agent_manager'],
-            verbose=True,
-            llm=crew_llm
+            config=self.agents_config['agent_manager'], # type: ignore[index]
+            verbose=True
         )
+        
     @agent
     def web_researcher(self) -> Agent:
         return Agent(
-            config=self.agents_config['web_researcher'],
+            config=self.agents_config['web_researcher'], # type: ignore[index]
             verbose=True,
-            tools=[web_search_tool],
-            llm=crew_llm
+            tools=[SerperDevTool()]
         )
+        
     @agent
     def expert_writer(self) -> Agent:
         return Agent(
-            config=self.agents_config['expert_writer'],
-            verbose=True,
-            llm=crew_llm
+            config=self.agents_config['expert_writer'], # type: ignore[index]
+            verbose=True
         )
 
     @task
     def agent_manager_task(self) -> Task:
         return Task(
-            config=self.tasks_config['agent_manager_task']
+            config=self.tasks_config['agent_manager_task'] # type: ignore[index]
         )
+        
     @task
     def web_researcher_task(self) -> Task:
         return Task(
-            config=self.tasks_config['web_research_task']
+            config=self.tasks_config['web_research_task'] # type: ignore[index]
         )
+        
     @task
     def expert_writer_task(self) -> Task:
         return Task(
-            config=self.tasks_config['expert_writer_task']
+            config=self.tasks_config['expert_writer_task'] # type: ignore[index]
         )
 
     @crew

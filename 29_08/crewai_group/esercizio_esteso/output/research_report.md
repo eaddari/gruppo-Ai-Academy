@@ -1,17 +1,17 @@
 # Application Documentation Template
 
-**Application Owner**: cd "c:\Users\FJ138WZ\OneDrive - EY\Documents\Ai Academy\gruppo-Ai-Academy\29_08\crewai_group\esercizio_esteso" ; python -c "from src.esercizio_esteso.crews.rag.faiss_rag import test_rag; test_rag()"
-<br>**Document Version**: idk
-<br>**Reviewers**: idk
+**Application Owner**: idkidk
+<br>**Document Version**: i
+<br>**Reviewers**: [Information not available]
 
 ## Key Links
 
-* [Code Repository](idk)
-* [Deployment Pipeline](idk)
-* [API]() ([Swagger Docs]())
-* [Cloud Account]()
-* [Project Management Board]()
-* [Application Architecture]()
+* [Code Repository]()  
+* [Deployment Pipeline]()  
+* [API]() ([Swagger Docs]())  
+* [Cloud Account]()  
+* [Project Management Board]()  
+* [Application Architecture]()  
 
 ## General Information 
 
@@ -23,17 +23,20 @@ EU AI Act <a href="https://artificialintelligenceact.eu/article/11/" style="colo
 
 **Purpose and Intended Use**:
     
-* The Esercizio Esteso project is a multi-agent AI research system built with CrewAI, enabling intelligent routing between specialized research crews for documentation, web search, and mathematical problem-solving.
-* The system is modular and extensible, supporting the addition of new crews, agents, and tools for specialized tasks.
-* Key features include intelligent routing between research crews, extensible architecture, documentation/web search/math problem-solving capabilities, custom tools for Q&A with citations, and dynamic RAG function loading.
-* The system is documented using Sphinx, with the genericflow package providing additional flow management and tooling capabilities.
-* [Information not available]: Intended sector of deployment.
-* [Information not available]: Clearly stated problem the AI application aims to solve.
-* [Information not available]: Target users and stakeholders.
-* [Information not available]: Measurable goals and key performance indicators (KPIs).
-* [Information not available]: Ethical implications and regulatory constraints.
-* [Information not available]: Prohibited uses or potential misuse scenarios.
-* **Operational environment:** The system is designed to operate in Python environments, expecting a Python virtual environment at `.venv/Scripts/python.exe` for tool execution, with a fallback to the system Python executable if not found. The `rag` directory must be added to the Python path for dynamic function imports. The system is documented using Sphinx and supports extensibility for new agents and tools.
+* Description of the AI system's intended purpose, including the sector of deployment.  
+  - Esercizio Esteso is an AI system built on a multi-agent architecture using CrewAI, designed to intelligently route research tasks to specialized crews based on task type (documentation, web search, or mathematical problem-solving).  
+* Clearly state the problem the AI application aims to solve.  
+  - The system addresses the need for efficient, automated research assistance, documentation management, and mathematical problem-solving by leveraging specialized AI agents and tools.  
+* Delineate target users and stakeholders.  
+  - [Information not available]
+* Set measurable goals and key performance indicators (KPIs).  
+  - [Information not available]
+* Consider ethical implications and regulatory constraints.  
+  - [Information not available]
+* Clear statement on prohibited uses or potential misuse scenarios.  
+  - [Information not available]
+* **Operational environment:** Describe where and how the AI system will operate, such as on mobile devices, cloud platforms, or embedded systems.  
+  - The system is implemented in Python and operates within a Python virtual environment. It is designed to be extensible and can be deployed in environments supporting Python and Sphinx-based documentation workflows.
 
 ## Risk classification
 
@@ -44,9 +47,10 @@ Prohibited Risk: EU AI Act Chapter II <a href="https://artificialintelligenceact
 <p></p>
 </div>
 
-* [Information not available]: High / Limited / Minimal (in accordance with the AI Act)
-* [Information not available]: Reasoning for the above classification
-
+* [Information not available]
+* reasoning for the above classification  
+   [Information not available]
+   
 ## Application Functionality 
 
 <div style="color: gray">
@@ -56,35 +60,27 @@ EU AI Act <a href="https://artificialintelligenceact.eu/article/11/" style="colo
 </div>
 
 * **Instructions for use for deployers**: <div style="color: gray">(EU AI Act <a href="https://artificialintelligenceact.eu/article/13/" style="color:blue; text-decoration:underline">Article 13</a>)</div>
-    - Ensure the Python virtual environment is set up at `.venv/Scripts/python.exe` for tool execution. If not found, the system will fallback to the system Python executable.
-    - The `rag` directory must be added to the Python path for dynamic function imports.
-    - Add content using reStructuredText syntax for documentation.
-    - Provide questions to custom tools for answers with citations.
-    - Configuration for tools should conform to pydantic's `ConfigDict`, ensuring structured and validated settings.
-
+  - Deployers must configure a Python virtual environment, ensure the rag directory is accessible for dynamic imports, and manage dependencies for the esercizio_esteso and genericflow packages. Documentation content should be added using reStructuredText syntax.
 * **Model Capabilities**:
-    - The application enables intelligent routing between specialized research crews for documentation, web search, and mathematical problem-solving.
-    - Supports modular and extensible architecture, allowing addition of new crews, agents, and tools.
-    - Custom tools include a question-and-answer interface with source citations and dynamic import of RAG (Retrieval-Augmented Generation) functions.
-    - Vision tools are available, expanding the system’s capabilities.
-    - [Information not available]: Supported languages, data types, or scenarios.
-    - [Information not available]: Limitations.
-
+  * What the application can and cannot do (limitations).
+    - The application can intelligently route research tasks to specialized crews for documentation retrieval, web search, and mathematical problem-solving. It supports extensibility via custom tools and dynamic function imports. Limitations include lack of detailed input/output requirements and unspecified agent names.
+  * Supported languages, data types, or scenarios.
+    - [Information not available]
 * **Input Data Requirements**:
-    - [Information not available]: Format and quality expectations for input data.
-    - [Information not available]: Examples of valid and invalid inputs.
-
+  * Format and quality expectations for input data.
+    - Users provide questions as input; the system expects well-formed queries for optimal results.
+  * Examples of valid and invalid inputs.
+    - [Information not available]
 * **Output Explanation**:
-    - [Information not available]: How to interpret predictions, classifications, or recommendations.
-    - [Information not available]: Uncertainty or confidence measures, if applicable.
-
+  * How to interpret predictions, classifications, or recommendations.
+    - The system returns answers to user questions, including source citations where applicable.
+  * Uncertainty or confidence measures, if applicable.
+    - [Information not available]
 * **System Architecture Overview**:
-    - The system is built using CrewAI for multi-agent orchestration.
-    - Crews are organized within the `esercizio_esteso.crews` package.
-    - Custom tools are implemented in the `esercizio_esteso.tools` and `genericflow.tools.custom_tool` modules.
-    - Vision tools are available in the `esercizio_esteso.tools.vision_tools` module.
-    - The system is documented using Sphinx, with the `genericflow` package providing additional flow management and tooling capabilities.
-    - The architecture supports dynamic import capabilities for RAG functions and expects a Python virtual environment for execution.
+  * Functional description and architecture of the system.
+    - Esercizio Esteso is built on a multi-agent architecture using CrewAI. It features intelligent routing of tasks to specialized crews (documentation, web search, math problem-solving), each comprising individual AI agents and custom tools/modules.
+  * Describe the key components of the system (including datasets, algorithms, models, etc.)
+    - Key components include specialized crews, AI agents, custom tools (vision_tools, custom_tool), and dynamic import support for RAG functions. The system is organized into esercizio_esteso and genericflow packages.
 
 ## Models and Datasets
 
@@ -121,14 +117,9 @@ Link to all dataset documentation and information used to evaluate the AI/ML Sys
 ### Infrastructure and Environment Details
 
 * **Cloud Setup**:
-  * [Information not available]: Specify cloud provider (e.g., AWS, Azure, GCP) and regions.
-  * [Information not available]: List required services: compute (e.g., EC2, Kubernetes), storage (e.g., S3, Blob Storage), and databases (e.g., DynamoDB, Firestore).
-  * [Information not available]: Define resource configurations (e.g., VM sizes, GPU/TPU requirements).
-  * [Information not available]: Network setup: VPC, subnets, and security groups.
-
+  * [Information not available]
 * **APIs**:
-  * [Information not available]: API endpoints, payload structure, authentication methods (e.g., OAuth, API keys).
-  * [Information not available]: Latency and scalability expectations.
+  * [Information not available]
 
 ## Integration with External Systems
 
@@ -138,21 +129,31 @@ Link to all dataset documentation and information used to evaluate the AI/ML Sys
 </div>
 
 * **Systems**:
-  * [Information not available]: List dependencies 
-  * [Information not available]: Data flow diagrams showing interactions.
-  * [Information not available]: Error-handling mechanisms for APIs or webhooks
+  * List dependencies 
+    - esercizio_esteso and genericflow Python packages, Python virtual environment, Sphinx for documentation.
+  * Data flow diagrams showing interactions.
+    - [Information not available]
+  * Error-handling mechanisms for APIs or webhooks
+    - [Information not available]
 
 ## Deployment Plan
 
 * **Infrastructure**:
-  * [Information not available]: List environments: development, staging, production.
-  * [Information not available]: Resource scaling policies (e.g., autoscaling, redundancy).
-  * [Information not available]: Backup and recovery processes.
+  * List environments: development, staging, production.
+    - [Information not available]
+  * Resource scaling policies (e.g., autoscaling, redundancy).
+    - [Information not available]
+  * Backup and recovery processes.
+    - [Information not available]
 * **Integration Steps**:
-  * [Information not available]: Order of deployment (e.g., database migrations, model upload, service launch).
-  * [Information not available]: Dependencies like libraries, frameworks, or APIs.
-  * [Information not available]: Rollback strategies for each component.
-* **User Information**: [Information not available]: where is this under deployment?
+  * Order of deployment (e.g., database migrations, model upload, service launch).
+    - [Information not available]
+  * Dependencies like libraries, frameworks, or APIs.
+    - esercizio_esteso, genericflow, Sphinx, Python 3.x
+  * Rollback strategies for each component.
+    - [Information not available]
+* **User Information**: where is this under deployment?
+    - [Information not available]
 
 ## Lifecycle Management
 
@@ -161,28 +162,40 @@ Link to all dataset documentation and information used to evaluate the AI/ML Sys
   <p></p>
 </div>
     
-* [Information not available]: Monitoring procedures for performance and ethical compliance.
-* [Information not available]: Versioning and change logs for model updates.
+* Monitoring procedures for performance and ethical compliance.
+  - [Information not available]
+* Versioning and change logs for model updates.
+  - [Information not available]
 * **Metrics**:
-  * [Information not available]: Application performance: response time, error rate.
-  * [Information not available]: Model performance: accuracy, precision, recall.
-  * [Information not available]: Infrastructure: CPU, memory, network usage.
+  * Application performance: response time, error rate.
+    - [Information not available]
+  * Model performance: accuracy, precision, recall.
+    - [Information not available]
+  * Infrastructure: CPU, memory, network usage.
+    - [Information not available]
 * **Key Activities**:
-  * [Information not available]: Monitor performance in real-world usage.
-  * [Information not available]: Identify and fix drifts, bugs, or failures.
-  * [Information not available]: Update the model periodically.
+  * Monitor performance in real-world usage.
+    - [Information not available]
+  * Identify and fix drifts, bugs, or failures.
+    - [Information not available]
+  * Update the model periodically.
+    - [Information not available]
 * **Documentation Needs**:
-  * [Information not available]: **Monitoring Logs**: Real-time data on accuracy, latency, and uptime.
-  * [Information not available]: **Incident Reports**: Record of failures, impacts, and resolutions.
-  * [Information not available]: **Retraining Logs**: Data updates and changes in performance.
-  * [Information not available]: **Audit Trails**: Comprehensive history of changes to ensure compliance.
+  * **Monitoring Logs**: Real-time data on accuracy, latency, and uptime.
+    - [Information not available]
+  * **Incident Reports**: Record of failures, impacts, and resolutions.
+    - [Information not available]
+  * **Retraining Logs**: Data updates and changes in performance.
+    - [Information not available]
+  * **Audit Trails**: Comprehensive history of changes to ensure compliance.
+    - [Information not available]
 -**Manteinance of change logs**: 
-* [Information not available]: new features added
-* [Information not available]: updates to existing functionality
-* [Information not available]: deprecated features
-* [Information not available]: removed features
-* [Information not available]: bug fixes
-* [Information not available]: security and vulnerability fixes
+* new features added
+* updates to existing functionality
+* deprecated features
+* removed features
+* bug fixes
+* security and vulnerability fixes
 
 ### Risk Management System
 
@@ -199,15 +212,19 @@ Link to all dataset documentation and information used to evaluate the AI/ML Sys
 **Identified Risks:** 
 [Information not available]
 
-**Potential Harmful Outcomes:** [Information not available]
+**Potential Harmful Outcomes:** List possible negative effects, such as biased decisions, privacy breaches, or safety hazards.
+[Information not available]
 
-**Likelihood and Severity:** [Information not available]
+**Likelihood and Severity:** Assess how likely each risk is to occur and the potential impact on users or society.
+[Information not available]
 
 #### Risk Mitigation Measures
 
-**Preventive Measures:** [Information not available]
+**Preventive Measures:** Detail actions taken to prevent risks, like implementing data validation checks or bias reduction techniques.
+[Information not available]
 
-**Protective Measures:** [Information not available]
+**Protective Measures:** Describe contingency plans and safeguards in place to minimize the impact if a risk materializes.
+[Information not available]
 
 ## Testing and Validation (Accuracy, Robustness, Cybersecurity)
 
@@ -219,33 +236,52 @@ Link to all dataset documentation and information used to evaluate the AI/ML Sys
 **Testing and Validation Procedures (Accuracy):**
 [Information not available]
 
-**Performance Metrics:** [Information not available]
+**Performance Metrics:** List the metrics used to evaluate the AI system, such as accuracy, precision, recall, F1 score, or mean squared error.
+[Information not available]
 
-**Validation Results:** [Information not available]
+**Validation Results:** Summarize the outcomes of testing, including any benchmarks or thresholds met or exceeded.
+[Information not available]
 
-**Measures for Accuracy:** [Information not available]
-
+**Measures for Accuracy:** High-quality data, algorithm optimisation, evaluation metrics, and real-time performance tracking.
+[Information not available]
+  
 ### Accuracy throughout the lifecycle
 
-**Data Quality and Management:** [Information not available]
+**Data Quality and Management:** High-Quality Training Data: Data Preprocessing, techniques like normalisation, outlier removal, and feature scaling to improve data consistency, Data Augmentation, Data Validation
+[Information not available]
 
-**Model Selection and Optimisation:** [Information not available]
+**Model Selection and Optimisation:** Algorithm selection suited for the problem, Hyperparameter Tuning (grid search, random search, Bayesian optimization), Performance Validation( cross-validation by splitting data into training and testing sets, using k-fold or stratified cross-validation), Evaluation Metrics (precision,recall, F1 score, accuracy, mean squared error (MSE), or area under the curve (AUC).
+[Information not available]
 
-**Feedback Mechanisms:** [Information not available]
+**Feedback Mechanisms:** Real-Time Error Tracking, Incorporate mechanisms to iteratively label and include challenging or misclassified examples for retraining.
+[Information not available]
 
 ### Robustness 
 
+<-- Add outlier detection and all possible post analysis, what are the criticalities -->
+
 **Robustness Measures:**
+[Information not available]
+
+* Adversarial training, stress testing, redundancy, error handling, and domain adaptation.
 [Information not available]
 
 **Scenario-Based Testing:**
 [Information not available]
 
-**Redundancy and Fail-Safes:**
-[Information not available]
+* Plan for adversarial conditions, edge cases, and unusual input scenarios.
+    
+* Design the system to degrade gracefully when encountering unexpected inputs.
+    
 
+**Redundancy and Fail-Safes:**
+    
+* Introduce fallback systems (e.g., rule-based or simpler models) to handle situations where the main AI system fails.
+    
 **Uncertainty Estimation:**
-[Information not available]
+    
+* Include mechanisms to quantify uncertainty in the model’s predictions (e.g., Bayesian networks or confidence scores).
+    
 
 ### Cybersecurity 
 
@@ -254,11 +290,14 @@ Link to all dataset documentation and information used to evaluate the AI/ML Sys
   <p></p>
 </div>
 
-**Data Security:** [Information not available]
+**Data Security:**
+[Information not available]
 
-**Access Control:** [Information not available]
+**Access Control:**
+[Information not available]
 
-**Incident Response :** [Information not available]
+**Incident Response :**
+[Information not available]
 
 These measures include threat modelling, data security, adversarial robustness, secure development practices, access control, and incident response mechanisms.
 
@@ -266,6 +305,7 @@ Post-deployment monitoring, patch management, and forensic logging are crucial t
 
 Documentation of all cybersecurity processes and incidents is mandatory to ensure accountability and regulatory conformity.
 
+  
 ## Human Oversight 
 
 <div style="color:gray">
@@ -282,15 +322,19 @@ Documentation of all cybersecurity processes and incidents is mandatory to ensur
 
 **User Instructions and Training:** [Information not available]
 
-**Limitations and Constraints of the System:** [Information not available]
+**Limitations and Constraints of the System:** Clearly state what the AI system cannot do, including any known weaknesses or scenarios where performance may degrade.
+- The system's limitations include lack of detailed input/output requirements, unspecified agent names, and potential gaps in human oversight and risk management documentation.
 
 ## Incident Management
 <!-- what happens when things go wrong. This part is particularly important to provide information on how incidents were dealth with and the processes put in place to minimize damage when things go wrong. -->
 * **Common Issues**:
-  * [Information not available]: List common errors and their solutions.
-  * [Information not available]: Logs or debugging tips for advanced troubleshooting.
+  * List common errors and their solutions.
+    - [Information not available]
+  * Logs or debugging tips for advanced troubleshooting.
+    - [Information not available]
 * **Support Contact**:
-  * [Information not available]: How to reach technical support or community forums.
+  * How to reach technical support or community forums.
+    - [Information not available]
 
 ### Troubleshooting AI Application Deployment
 
@@ -309,7 +353,6 @@ This section outlines potential issues that can arise during the deployment of a
   - Monitor usage metrics and adjust resource allocation dynamically.
   - Implement rate-limiting for traffic spikes. -->
 
-
 ##### Network Failures
 
 * **Problem**:  network bottlenecks  can lead to inaccessible or experiences latency of the application.
@@ -320,7 +363,6 @@ This section outlines potential issues that can arise during the deployment of a
   - Use content delivery networks (CDNs) or regional load balancers.
   - Ensure proper failover mechanisms.-->
 
-
 ##### Deployment Pipeline Failures
 
 * **Problem**: pipeline fails to build, test, or deploy because of issues of compatibility between application code and infrastructure, environment variables or credentials misconfiguration.
@@ -330,7 +372,6 @@ This section outlines potential issues that can arise during the deployment of a
   - Roll back to the last stable build.
   - Fix pipeline scripts and use containerisation for environment consistency.
   - Enable verbose logging for error diagnostics.-->
-
 
 #### Integration Problems
 
@@ -354,7 +395,6 @@ This section outlines potential issues that can arise during the deployment of a
   - Use schema validation tools (e.g., JSON schema validators).
   - Add versioning to APIs and validate inputs before processing.-->
 
-
 #### Data Quality Problems
 
 * **Problem**: Inaccurate or corrupt data leads to poor predictions.
@@ -368,7 +408,6 @@ This section outlines potential issues that can arise during the deployment of a
   - Automate data quality checks (e.g., Great Expectations framework).
   - Regularly audit and clean production data.-->
 
-
 #### Model-Level Issues
 
 ##### Performance or Deployment Issues
@@ -381,7 +420,6 @@ This section outlines potential issues that can arise during the deployment of a
 - **Resolution**:
   - Monitoring for data drift and retraining of the model as needed.
   - Regularly update the model -->
-
 
 #### Safety and Security Issues
 
@@ -400,7 +438,6 @@ This section outlines potential issues that can arise during the deployment of a
   - Implement auditing for data access and alerts for unusual activity.
   6.1. Delayed or Missing Data-->
 
-
 #### Monitoring and Logging Failures
 
 ##### Missing or Incomplete Logs
@@ -409,12 +446,10 @@ This section outlines potential issues that can arise during the deployment of a
 
 * **Mitigation Strategy**: 
 
-
 <!--
 - **Resolution**:
   - Fine-tune alerting thresholds and prioritise critical alerts.
   - Use tools like Prometheus Alertmanager to manage and group alerts. -->
-
 
 #### Recovery and Rollback
 
@@ -464,7 +499,6 @@ indication for, or on behalf of whom, that person signed, a signature.-->
 
 ### Template Version
 <!-- info: link to model documentation template (i.e. could be a GitHub link) -->
-
 [Information not available]
 
 ### Documentation Authors
@@ -473,6 +507,6 @@ indication for, or on behalf of whom, that person signed, a signature.-->
 Select one or more roles per author and reference author's
 emails to ease communication and add transparency. -->
 
-* [Information not available]: (Owner / Contributor / Manager)
-* [Information not available]: (Owner / Contributor / Manager)
-* [Information not available]: (Owner / Contributor / Manager)
+* **Name, Team:** (Owner / Contributor / Manager) [Information not available]
+* **Name, Team:** (Owner / Contributor / Manager) [Information not available]
+* **Name, Team:** (Owner / Contributor / Manager) [Information not available]

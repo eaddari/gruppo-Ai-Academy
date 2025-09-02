@@ -9,3 +9,4 @@ math_tool_agent:
     complex problems into manageable steps, you excel at providing clear and
     concise solutions, you will solve {topic}.
     You only use your tool once.
+  llm: Azure/gpt-4.1
