@@ -14,6 +14,11 @@ class RetrievalToolInput(BaseModel):
     """Input schema for RAGTool."""
 
     query: str = Field(..., description="The query to search in the vector store.")
+    k: int = Field(..., description="Number of top similar documents to retrieve.")
+    score_threshold: float | None = Field(default=None, description="Minimum score threshold for retrieved documents.")
+    consistency: int | None = Field(default=None, description="Consistency score for retrieved documents.")
+    # hybrid_fusion: float | None = Field(default=None, description="Hybrid fusion score for retrieved documents.")
+
 
 
 def get_embedding_model() -> AzureOpenAIEmbeddings:
@@ -93,7 +98,7 @@ class RetrievalTool(BaseTool):
     description: str = "A tool that retrieves relevant information from a Qdrant vector store based on a given query."
     args_schema: Type[BaseModel] = RetrievalToolInput
 
-    def _run(self, query: str) -> str:
+    def _run(self, query: str, k: int, score_threshold: float | None, consistency: int | None) -> str:
         """
         Esegue una ricerca di similarità su Qdrant e restituisce i contenuti dei documenti.
 
@@ -132,7 +137,7 @@ class RetrievalTool(BaseTool):
             raise ValueError("query must be a non-empty string.")
 
         with get_qdrant_vectorstore() as qdrant:
-            result = qdrant.similarity_search(query, k=5)
+            result = qdrant.similarity_search(query, k, score_threshold, consistency)
 
         result_str = "\n---\n".join([doc.page_content for doc in result])
 

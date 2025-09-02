@@ -22,6 +22,7 @@ from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
 from typing import List
 from src.esercizio_esteso.tools.custom_tool import LocalRag
+from src.esercizio_esteso.tools.rag_tool import RetrievalTool
 import ssl
 import httpx
 
@@ -96,7 +97,7 @@ class Webrag():
         return Agent(
             config=self.agents_config['rag_researcher'], # type: ignore[index]
             verbose=True,
-            tools=[LocalRag()]
+            tools=[RetrievalTool()]
         )
 
     @agent
